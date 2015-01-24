@@ -1,5 +1,18 @@
 #include "Scene.h"
-#include <iostream>
+
+bool pixel_is_corner(const sf::Image& img, int x, int y)
+{
+	sf::Vector2u size = img.getSize();
+	if (x != size.x -1 and img.getPixel(x+1, y).r < 122 and y != size.y-1 and img.getPixel(x, y+1).r < 122)
+		return true;
+	if (x != size.x -1 and img.getPixel(x+1, y).r < 122 and y != 0 and img.getPixel(x, y-1).r < 122)
+		return true;
+	if (x != 0 and img.getPixel(x-1, y).r < 122 and y != size.y-1 and img.getPixel(x, y+1).r < 122)
+		return true;
+	if (x != 0 and img.getPixel(x-1, y).r < 122 and y != 0 and img.getPixel(x, y-1).r < 122)
+		return true;
+	return false;
+}
 
 Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 {
@@ -15,16 +28,13 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 	{
 		for (unsigned int i = 0; i < size.x; ++i)
 		{
-			std::cout << "pos: " << i << ", " << j <<"):" << std::endl;
 			hb::SpriteComponent* t;
 			t = new hb::SpriteComponent(window_manager);
 			if (tilemap.getPixel(i, j).r < 122) // if background
 			{
-				std::cout << "\tEs background" << std::endl;
 				t->setTexture("tilemap.png", sf::IntRect(138, 308, 32, 32));
 				if (in_collider)
 				{
-					std::cout << "\t\tSaliendo del colider" << std::endl;
 					in_collider = false;
 					b2BodyDef myBodyDef;
 					myBodyDef.type = b2_staticBody;
@@ -42,18 +52,15 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 			}
 			else
 			{
-				std::cout << "\tEs foreground" << std::endl;
 				t->setTexture("tilemap.png", sf::IntRect(36, 308, 32, 32));
 				if (((j != 0 and tilemap.getPixel(i, j - 1).r < 122) or (j != size.y-1 and tilemap.getPixel(i, j + 1).r < 122)) and not in_collider)
 				{
-					std::cout << "\t\tEntrando al colider" << std::endl;
 					in_collider = true;
 					collider_begin = hb::Vector2d(i, j);
 
 				}
 				else if (in_collider and not ((j != 0 and tilemap.getPixel(i, j - 1).r < 122) or (j != size.y-1 and tilemap.getPixel(i, j + 1).r < 122)))
 				{
-					std::cout << "\t\tSaliendo del colider" << std::endl;
 					in_collider = false;
 					b2BodyDef myBodyDef;
 					myBodyDef.type = b2_staticBody;
@@ -74,7 +81,6 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 		}
 		if (in_collider)
 		{
-			std::cout << "\t\tSaliendo del colider" << std::endl;
 			in_collider = false;
 			b2BodyDef myBodyDef;
 			myBodyDef.type = b2_staticBody;
@@ -94,13 +100,10 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 	{
 		for (unsigned int j = 0; j < size.y; ++j)
 		{
-			std::cout << "pos: " << i << ", " << j <<"):" << std::endl;
 			if (tilemap.getPixel(i, j).r < 122) // if background
 			{
-				std::cout << "\tEs background" << std::endl;
 				if (in_collider)
 				{
-					std::cout << "\t\tSaliendo del colider" << std::endl;
 					in_collider = false;
 					b2BodyDef myBodyDef;
 					myBodyDef.type = b2_staticBody;
@@ -118,17 +121,17 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 			}
 			else
 			{
-				std::cout << "\tEs foreground" << std::endl;
 				if (((i != 0 and tilemap.getPixel(i - 1, j).r < 122) or (i != size.x-1 and tilemap.getPixel(i + 1, j).r < 122)) and not in_collider)
 				{
-					std::cout << "\t\tEntrando al colider" << std::endl;
-					in_collider = true;
-					collider_begin = hb::Vector2d(i, j);
+					if (not pixel_is_corner(tilemap, i, j))
+					{
+						in_collider = true;
+						collider_begin = hb::Vector2d(i, j);
+					}
 
 				}
 				else if (in_collider and not ((i != 0 and tilemap.getPixel(i - 1, j).r < 122) or (i != size.x-1 and tilemap.getPixel(i + 1, j).r < 122)))
 				{
-					std::cout << "\t\tSaliendo del colider" << std::endl;
 					in_collider = false;
 					b2BodyDef myBodyDef;
 					myBodyDef.type = b2_staticBody;
@@ -146,7 +149,6 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 		}
 		if (in_collider)
 		{
-			std::cout << "\t\tSaliendo del colider" << std::endl;
 			in_collider = false;
 			b2BodyDef myBodyDef;
 			myBodyDef.type = b2_staticBody;

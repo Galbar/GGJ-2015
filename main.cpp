@@ -36,6 +36,7 @@ int main(int argc, char const *argv[])
 	hb::AnimatedSpriteComponent* sp1 = new hb::AnimatedSpriteComponent(&window_manager1);
 	sp1->setTexture("asd");
 	sp1->setFrameSize(hb::Vector2d(32, 32));
+	sp1->setScale(hb::Vector3d(1, 2, 1));
 	go1->addComponent(sp1);
 	hb::FunctionComponent* move = new hb::FunctionComponent();
 	move->setUpdateFunction([&] (hb::GameObject* go)
