@@ -4,28 +4,34 @@
 #include "Hummingbird-Base/Vector3d.h"
 #include "Hummingbird-Base/GameObject.h"
 #include "Hummingbird-Base/FunctionComponent.h"
-#include "Hummingbird-Base/EventManager.h"
 #include "Hummingbird-SFML/TextureManager.h"
 #include "Hummingbird-SFML/RenderWindowManager.h"
 #include "Hummingbird-SFML/AnimatedSpriteComponent.h"
-
-void hello(const sf::Event::KeyEvent)
-{
-	std::cout << "world" << std::endl;
-}
+#include "InputManager.h"
 
 
-class InputMove : public hb::GameObject::Component
+class MoveToClick : public hb::GameObject::Component
 {
 public:
-	std::function<void(const sf::Event::KeyEvent&)> handleEvent;
+	MoveToClick()
+	{
+		listener_id = InputManager::instance()->listen([this](const MouseButtonWorld& e)
+		{
+			getGameObject()->setPosition(hb::Vector3d(e.x, e.y, getGameObject()->getPosition().z));
+		});
+	}
+	~MoveToClick()
+	{
+		InputManager::instance()->ignore(listener_id);
+	}
+private:
+	InputManager::ListenerId<MouseButtonWorld> listener_id;
+
 };
 
 int main(int argc, char const *argv[])
 {
-	hb::EventManager<sf::Event::MouseButtonEvent, sf::Event::KeyEvent> event_manager;
-	auto hello_id = event_manager.listen(std::function<void(const sf::Event::KeyEvent&)>(hello));
-	hb::RenderWindowManager window_manager1(new sf::RenderWindow(sf::VideoMode(600, 600), "SFML works!1"));
+	hb::RenderWindowManager window_manager1(new sf::RenderWindow(sf::VideoMode(600, 600), "SFML works!"));
 
 	hb::GameObject go1;
 	hb::AnimatedSpriteComponent* sp1 = new hb::AnimatedSpriteComponent(&window_manager1);
@@ -46,7 +52,7 @@ int main(int argc, char const *argv[])
 	go1.addComponent(move);
 
 	hb::GameObject go2;
-	event_manager.listen([&] (const sf::Event::KeyEvent& ev)
+	InputManager::instance()->listen([&] (const KeyPressed& ev)
 	{
 		if (ev.code == sf::Keyboard::Key::Up)
 			go2.setPosition(go2.getPosition() + hb::Vector3d(0,-1,0));
@@ -56,9 +62,8 @@ int main(int argc, char const *argv[])
 			go2.setPosition(go2.getPosition() + hb::Vector3d(1,0,0));
 		if (ev.code == sf::Keyboard::Key::Left)
 			go2.setPosition(go2.getPosition() + hb::Vector3d(-1,0,0));
-		if (ev.code == sf::Keyboard::Key::A)
-			event_manager.ignore(hello_id);
 	});
+	go2.addComponent(new MoveToClick());
 	hb::AnimatedSpriteComponent* sp2 = new hb::AnimatedSpriteComponent(&window_manager1);
 	sp2->setFrameTime(hb::Time::seconds(0.3));
 	sp2->setFrameInterval(0, 47);
@@ -75,21 +80,25 @@ int main(int argc, char const *argv[])
 		sf::Event event;
 		while (window_manager1.getWindow()->pollEvent(event))
 		{
-			switch(event.type)
+			if (event.type == sf::Event::Closed)
 			{
-				case sf::Event::Closed:
-					window_manager1.getWindow()->close();
-					break;
-				case sf::Event::MouseButtonPressed:
-					event_manager.message(event.mouseButton);
-					break;
-				case sf::Event::KeyPressed:
-					event_manager.message(event.key);
-					break;
+				window_manager1.getWindow()->close();
 			}
-
+			else if (event.type == sf::Event::MouseButtonPressed)
+			{
+				MouseButtonWorld mbw(event.mouseButton, window_manager1);
+				InputManager::instance()->message(mbw);
+			}
+			else if (event.type == sf::Event::KeyPressed)
+			{
+				KeyPressed kp(event.key);
+				InputManager::instance()->message(kp);
+			}
 		}
 		hb::GameObject::updateAll();
+		auto view = window_manager1.getWindow()->getView();
+		view.setCenter(go1.getPosition().x, go1.getPosition().y);
+		window_manager1.getWindow()->setView(view);
 		window_manager1.draw();
 	}
 	return 0;
