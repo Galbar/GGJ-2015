@@ -1,6 +1,8 @@
 #include "PlayerComponent.h"
 #include <iostream>
 
+int PlayerComponent::current_player = 1;
+
 PlayerComponent::PlayerComponent(int player_number, int max_hp, int cur_hp, bool alive, int run_speed, int jump_speed):
 GameObject::Component(),
 cur_hp(cur_hp),
@@ -19,9 +21,16 @@ jump_speed(jump_speed)
 	// Input events
 	listen_key_pressed = InputManager::instance()->listen([this](const KeyPressed& e)
 	{
-		if (e.code == sf::Keyboard::Key::D) xDir = 1, last_key = e.code;
-		else if (e.code == sf::Keyboard::Key::A) xDir = -1, last_key = e.code;
-		else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump) yDir = 1, jumping = true;
+		if (e.code == sf::Keyboard::Key::Num1) current_player = 1;
+		else if (e.code == sf::Keyboard::Key::Num2) current_player = 2;
+		else if (e.code == sf::Keyboard::Key::Num3) current_player = 3;
+		else if (e.code == sf::Keyboard::Key::Num4) current_player = 4;
+		if (current_player == this->player_number)
+		{
+			if (e.code == sf::Keyboard::Key::D) xDir = 1, last_key = e.code;
+			else if (e.code == sf::Keyboard::Key::A) xDir = -1, last_key = e.code;
+			else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump) yDir = 1, jumping = true;
+		}
 		
 	});
 

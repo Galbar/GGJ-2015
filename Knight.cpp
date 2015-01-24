@@ -17,10 +17,10 @@ Player(init_pos, player_number, max_hp, cur_hp, alive, run_speed, jump_speed)
 	body->SetLinearDamping(1.0f);
 	body->SetGravityScale(2.5);
 	b2Vec2 vertices[4];
-	vertices[0].Set(-1.0,  1.5);
-	vertices[1].Set(-1.0, -1.5);
-	vertices[2].Set( 1.0, -1.5);
-	vertices[3].Set( 1.0,  1.5);
+	vertices[0].Set(-0.5,  0.5);
+	vertices[1].Set(-0.5, -0.5);
+	vertices[2].Set( 0.5, -0.5);
+	vertices[3].Set( 0.5,  0.5);
 
 	b2PolygonShape box;
 	box.Set(vertices, 4);

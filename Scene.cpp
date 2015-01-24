@@ -20,7 +20,7 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 	sf::Image tilemap;
 	tilemap.loadFromFile(getLevelPath(lvl));
 	sf::Vector2u size = tilemap.getSize();
-	m_tilemap_obj->setPosition(hb::Vector3d(0, 0, -1000));
+	m_tilemap_obj->setPosition(hb::Vector3d(0.5, 0, -1000));
 
 	bool in_collider = false;
 	hb::Vector2d collider_begin;
@@ -40,7 +40,7 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 					myBodyDef.type = b2_staticBody;
 
 					b2PolygonShape collider_shape;
-					collider_shape.SetAsBox(((double)i - 1.0 - collider_begin.x) / 2.0, 0); //a 4x2 rectangle
+					collider_shape.SetAsBox(((double)i - collider_begin.x) / 2.0, 0.5); //a 4x2 rectangle
 					myBodyDef.position.Set(((double)i + collider_begin.x) / 2.0, collider_begin.y + 0.5); //a bit to the right
 
 					b2Body* body = hb::PhysicsWorld::instance()->addBody(&myBodyDef);
@@ -66,7 +66,7 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 					myBodyDef.type = b2_staticBody;
 
 					b2PolygonShape collider_shape;
-					collider_shape.SetAsBox(((double)i - 1.0 - collider_begin.x) / 2.0, 0); //a 4x2 rectangle
+					collider_shape.SetAsBox(((double)i - collider_begin.x) / 2.0, 0.5); //a 4x2 rectangle
 					myBodyDef.position.Set(((double)i + collider_begin.x) / 2.0, collider_begin.y + 0.5); //a bit to the right
 
 					b2Body* body = hb::PhysicsWorld::instance()->addBody(&myBodyDef);
@@ -86,7 +86,7 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 			myBodyDef.type = b2_staticBody;
 
 			b2PolygonShape collider_shape;
-			collider_shape.SetAsBox(((double)size.x - 1.0 - collider_begin.x) / 2.0, 0); //a 4x2 rectangle
+			collider_shape.SetAsBox(((double)size.x - collider_begin.x) / 2.0, 0.5); //a 4x2 rectangle
 			myBodyDef.position.Set(((double)size.x + collider_begin.x) / 2.0, collider_begin.y + 0.5); //a bit to the right
 
 			b2Body* body = hb::PhysicsWorld::instance()->addBody(&myBodyDef);
@@ -109,7 +109,7 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 					myBodyDef.type = b2_staticBody;
 
 					b2PolygonShape collider_shape;
-					collider_shape.SetAsBox(0, ((double)j - 1.0 - collider_begin.y) / 2.0); //a 4x2 rectangle
+					collider_shape.SetAsBox(0.5, ((double)j - collider_begin.y) / 2.0); //a 4x2 rectangle
 					myBodyDef.position.Set(collider_begin.x + 0.5, ((double)j + collider_begin.y) / 2.0); //a bit to the right
 
 					b2Body* body = hb::PhysicsWorld::instance()->addBody(&myBodyDef);
@@ -137,7 +137,7 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 					myBodyDef.type = b2_staticBody;
 
 					b2PolygonShape collider_shape;
-					collider_shape.SetAsBox(0, ((double)j - 1.0 - collider_begin.y) / 2.0); //a 4x2 rectangle
+					collider_shape.SetAsBox(0.5, ((double)j - collider_begin.y) / 2.0); //a 4x2 rectangle
 					myBodyDef.position.Set(collider_begin.x + 0.5, ((double)j + collider_begin.y) / 2.0); //a bit to the right
 
 					b2Body* body = hb::PhysicsWorld::instance()->addBody(&myBodyDef);
@@ -154,7 +154,7 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 			myBodyDef.type = b2_staticBody;
 
 			b2PolygonShape collider_shape;
-					collider_shape.SetAsBox(0, ((double)size.y - 1.0 - collider_begin.y) / 2.0); //a 4x2 rectangle
+					collider_shape.SetAsBox(0.5, ((double)size.y - collider_begin.y) / 2.0); //a 4x2 rectangle
 					myBodyDef.position.Set(collider_begin.x + 0.5, ((double)size.y + collider_begin.y) / 2.0); //a bit to the right
 
 			b2Body* body = hb::PhysicsWorld::instance()->addBody(&myBodyDef);
