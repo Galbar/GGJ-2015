@@ -11,34 +11,13 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 		for (unsigned int j = 0; j < size.y; ++j)
 		{
 			hb::SpriteComponent* t;
-			if (tilemap.getPixel(i, j).r == 0)
+			t = new hb::SpriteComponent(window_manager);
+			if (tilemap.getPixel(i, j).r < 122)
 			{
-				t = new hb::SpriteComponent(window_manager);
 				t->setTexture("tilemap.png", sf::IntRect(138, 308, 32, 32));
-			}
-			else if (tilemap.getPixel(i, j).b == 99)
-			{
-				hb::AnimatedSpriteComponent* at = new hb::AnimatedSpriteComponent(window_manager);
-				at->setTexture("tilemap.png", sf::IntRect(0, 204, 274, 68));
-				at->setFrameTime(hb::Time::seconds(0.1));
-				at->setFrameInterval(0, 7);
-				at->setFrameSize(hb::Vector2d(32, 32));
-				at->setFrameMargin(hb::Vector2d(2, 2));
-				t = at;
-			}
-			else if (tilemap.getPixel(i, j).b == 100)
-			{
-				hb::AnimatedSpriteComponent* at = new hb::AnimatedSpriteComponent(window_manager);
-				at->setTexture("tilemap.png", sf::IntRect(0, 204, 274, 68));
-				at->setFrameTime(hb::Time::seconds(0.1));
-				at->setFrameInterval(8, 15);
-				at->setFrameSize(hb::Vector2d(32, 32));
-				at->setFrameMargin(hb::Vector2d(2, 2));
-				t = at;
 			}
 			else
 			{
-				t = new hb::SpriteComponent(window_manager);
 				t->setTexture("tilemap.png", sf::IntRect(36, 308, 32, 32));
 			}
 			t->setPosition(hb::Vector3d(32 * i, 32 * j , 0));
