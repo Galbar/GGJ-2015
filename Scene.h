@@ -17,6 +17,6 @@ public:
 
 protected:
 	static std::string getLevelPath(levels lvl);
-	hb::GameObject m_tilemap_obj;
+	hb::GameObject* m_tilemap_obj;
 };
 #endif

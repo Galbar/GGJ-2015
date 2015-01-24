@@ -2,10 +2,11 @@
 
 Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 {
+	m_tilemap_obj = new hb::GameObject();
 	sf::Image tilemap;
 	tilemap.loadFromFile(getLevelPath(lvl));
 	sf::Vector2u size = tilemap.getSize();
-	m_tilemap_obj.setPosition(hb::Vector3d(0, 0, -1000));
+	m_tilemap_obj->setPosition(hb::Vector3d(0, 0, -1000));
 	for (unsigned int i = 0; i < size.x; ++i)
 	{
 		for (unsigned int j = 0; j < size.y; ++j)
@@ -21,7 +22,7 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 				t->setTexture("tilemap.png", sf::IntRect(36, 308, 32, 32));
 			}
 			t->setPosition(hb::Vector3d(32 * i, 32 * j , 0));
-			m_tilemap_obj.addComponent(t);
+			m_tilemap_obj->addComponent(t);
 		}
 	}
 }
@@ -29,9 +30,9 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 
 Scene::~Scene()
 {
+	hb::GameObject::destroyAll();
 	hb::TextureManager::instance()->clear();
 	hb::SoundManager::instance()->clear();
-	hb::GameObject::destroyAll();
 }
 
 
