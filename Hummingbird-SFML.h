@@ -1,0 +1,5 @@
+#include "Hummingbird-SFML/AnimatedSpriteComponent.h"
+#include "Hummingbird-SFML/RenderWindowManager.h"
+#include "Hummingbird-SFML/SoundComponent.h"
+#include "Hummingbird-SFML/SpriteComponent.h"
+#include "Hummingbird-SFML/TextureManager.h"
