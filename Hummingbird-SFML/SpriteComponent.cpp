@@ -40,6 +40,7 @@ void SpriteComponent::setTexture(const std::string& path, const sf::IntRect& are
 	m_texture_id = TextureManager::instance()->loadFromFile(path, area);
 	m_sprite.setTexture(TextureManager::instance()->get(m_texture_id));
 	m_sprite.setOrigin(m_sprite.getTexture()->getSize().x / 2, m_sprite.getTexture()->getSize().y / 2);
+	setPosition(hb::Vector3d(-m_sprite.getTexture()->getSize().x / 2, -m_sprite.getTexture()->getSize().y / 2, getPosition().z));
 }
 
 

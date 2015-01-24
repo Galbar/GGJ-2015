@@ -70,7 +70,7 @@ int main(int argc, char const *argv[])
 	sp2->setFrameInterval(0, 47);
 	sp2->setFrameMargin(hb::Vector2d(1, 1));
 	sp2->setFrameSize(hb::Vector2d(32, 32));
-	sp2->setTexture("tiles.png");
+	sp2->setTexture("tilemap.png");
 	go2->addComponent(sp2);
 	go2->setPosition(hb::Vector3d(60, 60, 1));
 
@@ -108,8 +108,12 @@ int main(int argc, char const *argv[])
 			}
 		}
 
-		hb::GameObject::updateAll();
 		hb::PhysicsWorld::instance()->update();
+		hb::GameObject::updateAll();
+
+		auto view = window_manager1.getWindow()->getView();
+		view.setCenter(sf::Vector2f(go1->getPosition().x, go1->getPosition().y));
+		window_manager1.getWindow()->setView(view);
 
 		window_manager1.draw();
 
