@@ -17,7 +17,7 @@ OBJ         := $(addprefix ./,$(SOURCES:./%.cpp=%.o))
 
 EXE         := exe
 
-.PHONY: $(BASE) $(SFML) $(BOX2D) clean
+.PHONY: $(BASE) $(SFML) $(BOX2D) clean run
 
 all: $(MODULES) $(EXE)
 
@@ -41,3 +41,6 @@ clean:
 	@$(MAKE) -C $(BASE) clean;
 	@$(MAKE) -C $(SFML) clean;
 	@$(MAKE) -C $(BOX2D) clean;
+
+run: all
+	./$(EXE)
