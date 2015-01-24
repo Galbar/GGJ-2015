@@ -1,7 +1,7 @@
 #include "Knight.h"
 
-Knight::Knight(Vector3d init_pos, int player_number, int max_hp, int cur_hp, bool alive, int run_speed, int jump_speed):
-Player(init_pos, player_number, max_hp, cur_hp, alive, run_speed, jump_speed)
+Knight::Knight(Vector3d init_pos, int player_number, bool controller, int controllerId):
+Player(init_pos, player_number, controller, controllerId)
 {
 	Vector3d p = getPosition();
 

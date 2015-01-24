@@ -13,10 +13,11 @@ m_player_component(nullptr)
 				m_player_component = getGameObject()->getComponents<PlayerComponent>()[0];
 			}
 			b2RayCastInput input;
-			hb::Vector3d to = getGameObject()->getPosition() + hb::Vector3d(0, m_player_component->getXDir(), 0);
-			input.p1 = b2Vec2(getGameObject()->getPosition().x, getGameObject()->getPosition().y);
+			hb::Vector3d from = getGameObject()->getPosition() + hb::Vector3d(0.6, 0, 0);
+			hb::Vector3d to = getGameObject()->getPosition() + hb::Vector3d(2, 0, 0);
+			input.p1 = b2Vec2(from.x, from.y);
 			input.p2 = b2Vec2(to.x, to.y);
-			input.maxFraction = 2;
+			input.maxFraction = 1;
 			b2Fixture* fixt = NULL;
 			float dist = PhysicsWorld::instance()->GetRayCastDistance(input.p1, input.p2, fixt);
 			if (fixt != NULL)

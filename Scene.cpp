@@ -30,7 +30,7 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 		{
 			hb::SpriteComponent* t;
 			t = new hb::SpriteComponent(window_manager);
-			if (tilemap.getPixel(i, j).r < 122) // if background
+			if (tilemap.getPixel(i, j) == sf::Color::Black) // if background
 			{
 				t->setTexture("tilemap.png", sf::IntRect(138, 308, 32, 32));
 				if (in_collider)
@@ -50,7 +50,7 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 
 				}
 			}
-			else
+			else if (tilemap.getPixel(i, j) == sf::Color::White)
 			{
 				t->setTexture("tilemap.png", sf::IntRect(36, 308, 32, 32));
 				if (((j != 0 and tilemap.getPixel(i, j - 1).r < 122) or (j != size.y-1 and tilemap.getPixel(i, j + 1).r < 122)) and not in_collider)
@@ -100,7 +100,7 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 	{
 		for (unsigned int j = 0; j < size.y; ++j)
 		{
-			if (tilemap.getPixel(i, j).r < 122) // if background
+			if (tilemap.getPixel(i, j) == sf::Color::Black)// if background
 			{
 				if (in_collider)
 				{
@@ -119,7 +119,7 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 
 				}
 			}
-			else
+			else if (tilemap.getPixel(i, j) == sf::Color::White)
 			{
 				if (((i != 0 and tilemap.getPixel(i - 1, j).r < 122) or (i != size.x-1 and tilemap.getPixel(i + 1, j).r < 122)) and not in_collider)
 				{

@@ -8,8 +8,8 @@
 class Knight : public Player
 {
 public:
-	Knight(Vector3d init_pos, int player_number, int max_hp, int cur_hp, bool alive, int run_speed, int jump_speed);
-	void setAnimatedSprite(hb::AnimatedSpriteComponent* sc);
+	Knight(Vector3d init_pos, int player_number, bool controller, int controllerId);
+
 
 private:
 	hb::AnimatedSpriteComponent* sc;

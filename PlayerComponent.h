@@ -11,88 +11,34 @@ using namespace hb;
 class PlayerComponent : public GameObject::Component
 {
 public:
-	PlayerComponent(int player_number, int max_hp, int cur_hp, bool alive, int run_speed, int jump_speed);
+	PlayerComponent(int player_number, bool controller, int controllerId);
 	~PlayerComponent();
 
 	void update() override;
 	int getXDir() const;
 
-	static int current_player;
-	static GameObject* active_player;
-
-	class FootListener : public b2ContactListener
-	{
-		void BeginContact(b2Contact* contact) {
-			
-			//check if fixture A was the foot sensor
-			void* fixtureUserData = contact->GetFixtureA()->GetUserData();
-			if (fixtureUserData != NULL)
-				if (*(int*)fixtureUserData == 3 )
-				{
-					std::cerr << "CONTACTA" << std::endl;
-					numFootContacts++;
-					return;
-				}
-
-			//check if fixture B was the foot sensor
-			fixtureUserData = contact->GetFixtureB()->GetUserData();
-			if (fixtureUserData != NULL)
-				if ( *(int*)fixtureUserData == 3 )
-				{
-					std::cerr << "CONTACTA" << std::endl;
-					numFootContacts++;
-					return;
-				}
-			
-      }
-  
-        void EndContact(b2Contact* contact) {
-			//check if fixture A was the foot sensor
-			
-			void* fixtureUserData = contact->GetFixtureA()->GetUserData();
-			if (fixtureUserData != NULL)
-				if ( *(int*)fixtureUserData == 3 )
-				{
-					std::cerr << "CONTACTAAAA" << std::endl;
-             		numFootContacts--;
-             		return;
-				}
-		    //check if fixture B was the foot sensor
-		    fixtureUserData = contact->GetFixtureB()->GetUserData();
-		    if (fixtureUserData != NULL) 
-		    	if ( *(int*)fixtureUserData == 3 )
-		    	{
-		    		std::cerr << "CONTACTAAAA" << std::endl;
-            		numFootContacts--;
-            		return;
-		    	}
-        }
-	};
-
-	FootListener* fl;
-	static int numFootContacts;
-
 private:
 	//Player attributes
-	int cur_hp;
 	bool active;
 	bool alive;
 	bool controller;
 	int controllerId;
+	double run_speed;
+	double jump_speed;
+
 
 	// State attributes
 	int xDir;
 	int yDir;
 	bool jumping;
 	bool clickedJump;
-	bool grounded;
 	sf::Keyboard::Key last_key;
 
 
 	InputManager::ListenerId<KeyPressed> listen_key_pressed;
 	InputManager::ListenerId<KeyReleased> listen_key_released;
-	InputManager::ListenerId<MouseButtonWindow> listen_mouse_window;
-	InputManager::ListenerId<MouseButtonWorld> listen_mouse_world;
+	InputManager::ListenerId<JoyButtonPressed> listen_joy_pressed;
+	InputManager::ListenerId<JoyButtonReleased> listen_joy_released;
 
 };
 
