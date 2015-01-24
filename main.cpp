@@ -1,14 +1,11 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "Hummingbird-Base/Time.h"
-#include "Hummingbird-Base/Vector3d.h"
-#include "Hummingbird-Base/GameObject.h"
-#include "Hummingbird-Base/FunctionComponent.h"
-#include "Hummingbird-SFML/TextureManager.h"
-#include "Hummingbird-SFML/RenderWindowManager.h"
-#include "Hummingbird-SFML/AnimatedSpriteComponent.h"
 #include "InputManager.h"
+<<<<<<< HEAD
 #include "Knight.h"
+=======
+#include "Scene.h"
+>>>>>>> 24e1c25dd4a8e5878494711aad5f2650a0a0c80e
 
 
 class MoveToClick : public hb::GameObject::Component
@@ -34,6 +31,7 @@ int main(int argc, char const *argv[])
 {
 	hb::RenderWindowManager window_manager1(new sf::RenderWindow(sf::VideoMode(600, 600), "SFML works!"));
 
+<<<<<<< HEAD
 	Knight* go1 = new Knight(1, 0, 0, true, 500, 500);
 	
 	hb::AnimatedSpriteComponent* sp1 = new hb::AnimatedSpriteComponent(&window_manager1);
@@ -76,7 +74,10 @@ int main(int argc, char const *argv[])
 	go2->setPosition(hb::Vector3d(60, 60, 1));
 
 	//std::cout << "go1 # FunctionComponent: " << go1.getComponents<hb::FunctionComponent>().size() << std::endl;
+=======
+>>>>>>> 24e1c25dd4a8e5878494711aad5f2650a0a0c80e
 	hb::Time::deltaTime = hb::Time::seconds(0.001);
+	Scene scene(&window_manager1, Scene::LVL1);
 	while (window_manager1.getWindow()->isOpen())
 	{
 		sf::Event event;
@@ -97,12 +98,16 @@ int main(int argc, char const *argv[])
 				InputManager::instance()->message(kp);
 			}
 		}
+<<<<<<< HEAD
 
 		hb::GameObject::updateAll();
 
 		auto view = window_manager1.getWindow()->getView();
 		view.setCenter(go1->getPosition().x, go1->getPosition().y);
 		window_manager1.getWindow()->setView(view);
+=======
+		scene.update();
+>>>>>>> 24e1c25dd4a8e5878494711aad5f2650a0a0c80e
 		window_manager1.draw();
 
 	}
