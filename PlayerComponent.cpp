@@ -1,4 +1,5 @@
 #include "PlayerComponent.h"
+#include "Scene.h"
 #include <iostream>
 
 PlayerComponent::PlayerComponent(int player_number, int max_hp, int cur_hp, bool alive, int run_speed, int jump_speed):
@@ -15,13 +16,14 @@ jump_speed(jump_speed)
 	yDir = 0;
 	jumping = false;
 	clickedJump = false;
+	grounded = true;
 
 	// Input events
 	listen_key_pressed = InputManager::instance()->listen([this](const KeyPressed& e)
 	{
 		if (e.code == sf::Keyboard::Key::D) xDir = 1, last_key = e.code;
 		else if (e.code == sf::Keyboard::Key::A) xDir = -1, last_key = e.code;
-		else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump) yDir = 1, jumping = true;
+		else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump && grounded) yDir = 1, jumping = true, clickedJump = true;
 		
 	});
 
@@ -68,6 +70,29 @@ void PlayerComponent::update()
 	{
 		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, jump_speed));
 		jumping = false;
+	}
+
+	b2Fixture* fixt = NULL;
+	grounded = false;
+	float size = getGameObject()->getScale().y;
+	Vector3d p = getGameObject()->getPosition();
+	float dist = PhysicsWorld::instance()->GetRayCastDistance(b2Vec2(p.x, p.y), b2Vec2(p.x, p.y-1.5), fixt);
+	if (fixt != NULL)
+	{
+		GameObject* ptr = (GameObject*) fixt->GetBody()->GetUserData();
+		grounded |= (dist < 1.0 && dist > 0.0 && ptr == nullptr);
+	}
+	dist = PhysicsWorld::instance()->GetRayCastDistance(b2Vec2(p.x-1, p.y), b2Vec2(p.x-1, p.y-1.5), fixt);
+	if (fixt != NULL)
+	{
+		GameObject* ptr = (GameObject*) fixt->GetBody()->GetUserData();
+		grounded |= (dist < 1.0 && dist > 0.0 && ptr == nullptr);
+	}
+	dist = PhysicsWorld::instance()->GetRayCastDistance(b2Vec2(p.x+1, p.y), b2Vec2(p.x+1, p.y-1.5), fixt);
+	if (fixt != NULL)
+	{
+		GameObject* ptr = (GameObject*) fixt->GetBody()->GetUserData();
+		grounded |= (dist < 1.0 && dist > 0.0 && ptr == nullptr);
 	}
 
 	getGameObject()->setPosition(Vector3d(body->GetPosition().x*32, body->GetPosition().y*32, getGameObject()->getPosition().z));

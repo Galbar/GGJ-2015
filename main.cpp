@@ -29,9 +29,9 @@ int main(int argc, char const *argv[])
 {
 	hb::RenderWindowManager window_manager1(new sf::RenderWindow(sf::VideoMode(600, 600), "SFML works!"));
 
-	PhysicsWorld::instance()->setGravity(Vector2d(0.0f, 5.0f));
+	PhysicsWorld::instance()->setGravity(Vector2d(0.0f, 10.0f));
 
-	Knight* go1 = new Knight(Vector3d(5, 5, 0), 1, 0, 0, true, 5, -10);
+	Knight* go1 = new Knight(Vector3d(5, 5, 0), 1, 0, 0, true, 10, -15);
 	
 	hb::AnimatedSpriteComponent* sp1 = new hb::AnimatedSpriteComponent(&window_manager1);
 	sp1->setTexture("asd");
