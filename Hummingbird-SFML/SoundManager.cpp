@@ -1,14 +1,14 @@
 #include "SoundManager.h"
 using namespace hb;
 
-SoundManager* SoundManager::s_instance = NULL;
+std::unique_ptr<SoundManager> SoundManager::s_instance = nullptr;
 
 SoundManager* SoundManager::instance()
 {
-	if (s_instance == NULL)
-		s_instance = new SoundManager();
+	if (s_instance == nullptr)
+		s_instance = std::unique_ptr<SoundManager>(new SoundManager());
 
-	return s_instance;
+	return s_instance.get();
 }
 
 int SoundManager::loadFromFile(const std::string& path)

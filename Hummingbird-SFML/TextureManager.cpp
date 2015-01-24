@@ -1,8 +1,7 @@
 #include "TextureManager.h"
-#include <iostream>
 using namespace hb;
 
-TextureManager* TextureManager::s_instance = NULL;
+std::unique_ptr<TextureManager> TextureManager::s_instance = nullptr;
 
 
 TextureManager::TextureManager():
@@ -33,10 +32,10 @@ ResourceManager<sf::Texture, detail::tex_id>()
 
 TextureManager* TextureManager::instance()
 {
-	if (s_instance == NULL)
-		s_instance = new TextureManager();
+	if (s_instance == nullptr)
+		s_instance = std::unique_ptr<TextureManager>(new TextureManager());
 
-	return s_instance;
+	return s_instance.get();
 }
 
 

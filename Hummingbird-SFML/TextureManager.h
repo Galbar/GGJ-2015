@@ -1,6 +1,7 @@
 #ifndef HB_TEXTURE_MANAGER_H
 #define HB_TEXTURE_MANAGER_H
 #include <string>
+#include <memory>
 #include <SFML/Graphics.hpp>
 #include "hash_pair.h"
 #include "../Hummingbird-Base/ResourceManager.h"
@@ -26,7 +27,7 @@ namespace hb
 
 	private:
 		static detail::tex_id makeTexId(const std::string& path, const sf::IntRect& area);
-		static TextureManager* s_instance;
+		static std::unique_ptr<TextureManager> s_instance;
 		int t404;
 	};
 }

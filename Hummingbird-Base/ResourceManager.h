@@ -15,7 +15,7 @@ namespace hb
 			m_resource_count = 0;
 		}
 		// Destructor
-		~ResourceManager(){}
+		virtual ~ResourceManager(){}
 		// Add Resource to manager
 		int addResource(const ResourceId& resource_id, const Resource& resource)
 		{
