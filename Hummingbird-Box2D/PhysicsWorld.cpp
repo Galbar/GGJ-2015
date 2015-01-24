@@ -19,6 +19,14 @@ PhysicsWorld* PhysicsWorld::instance()
 }
 
 
+void PhysicsWorld::clear()
+{
+	b2Vec2 gravity = s_instance->world->GetGravity();
+	delete s_instance->world;
+	s_instance->world = new b2World(gravity);
+}
+
+
 b2World* PhysicsWorld::getWorld()
 {
 	return world;

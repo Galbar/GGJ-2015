@@ -12,6 +12,7 @@ namespace hb
 	public:
 		PhysicsWorld(b2Vec2 gravity);
 		static PhysicsWorld* instance();
+		static void clear();
 
 		b2World* getWorld();
 		const b2World* getWorld() const;
