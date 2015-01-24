@@ -2,6 +2,7 @@
 #define SCENE_H
 #include "Hummingbird-Base.h"
 #include "Hummingbird-SFML.h"
+#include "Hummingbird-Box2D.h"
 
 class Scene
 {
