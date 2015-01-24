@@ -2,6 +2,7 @@
 #include <iostream>
 
 int PlayerComponent::current_player = 1;
+GameObject* PlayerComponent::active_player = nullptr;
 
 PlayerComponent::PlayerComponent(int player_number, int max_hp, int cur_hp, bool alive, int run_speed, int jump_speed):
 GameObject::Component(),
@@ -27,6 +28,7 @@ jump_speed(jump_speed)
 		else if (e.code == sf::Keyboard::Key::Num4) current_player = 4;
 		if (current_player == this->player_number)
 		{
+			active_player = getGameObject();
 			if (e.code == sf::Keyboard::Key::D) xDir = 1, last_key = e.code;
 			else if (e.code == sf::Keyboard::Key::A) xDir = -1, last_key = e.code;
 			else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump) yDir = 1, jumping = true;
@@ -80,4 +82,9 @@ void PlayerComponent::update()
 	}
 
 	getGameObject()->setPosition(Vector3d(body->GetPosition().x*32, body->GetPosition().y*32, getGameObject()->getPosition().z));
+}
+
+int PlayerComponent::getXDir() const
+{
+	return xDir;
 }

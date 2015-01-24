@@ -9,6 +9,7 @@ Player(init_pos, player_number, max_hp, cur_hp, alive, run_speed, jump_speed)
 	KnightComponent* kc = new KnightComponent();
 	addComponent(kc);
 
+
 	// Adding physics component
 	b2BodyDef bodyDef;
 	bodyDef.position.Set(p.x, p.y);

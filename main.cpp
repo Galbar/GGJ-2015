@@ -32,7 +32,7 @@ int main(int argc, char const *argv[])
 	PhysicsWorld::instance()->setGravity(Vector2d(0.0f, 5.0f));
 
 	Knight* go1 = new Knight(Vector3d(5, 5, 0), 1, 0, 0, true, 5, -10);
-	
+	PlayerComponent::active_player = go1;
 	hb::AnimatedSpriteComponent* sp1 = new hb::AnimatedSpriteComponent(&window_manager1);
 	sp1->setTexture("asd");
 	sp1->setFrameSize(hb::Vector2d(32, 32));
@@ -142,7 +142,7 @@ int main(int argc, char const *argv[])
 		hb::GameObject::updateAll();
 
 		auto view = window_manager1.getWindow()->getView();
-		view.setCenter(sf::Vector2f(go1->getPosition().x, go1->getPosition().y));
+		view.setCenter(sf::Vector2f(PlayerComponent::active_player->getPosition().x, PlayerComponent::active_player->getPosition().y));
 		window_manager1.getWindow()->setView(view);
 
 		window_manager1.draw();

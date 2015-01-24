@@ -14,8 +14,10 @@ public:
 	~PlayerComponent();
 
 	void update() override;
+	int getXDir() const;
 
 	static int current_player;
+	static GameObject* active_player;
 
 private:
 	//Player attributes

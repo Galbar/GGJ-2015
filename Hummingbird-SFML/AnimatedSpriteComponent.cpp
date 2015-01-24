@@ -73,8 +73,8 @@ void AnimatedSpriteComponent::setFrameInterval(int begin_frame, int end_frame)
 void AnimatedSpriteComponent::setFrameSize(const Vector2d& frame_size)
 {
 	m_frame_size = frame_size;
-	m_sprite.setOrigin(frame_size.x / 2, frame_size.y / 2);
-	setPosition(hb::Vector3d(-frame_size.x / 2, -frame_size.y / 2, getPosition().z));
+	m_sprite.setOrigin(frame_size.x / 2.0, frame_size.y / 2.0);
+	setPosition(hb::Vector3d(-frame_size.x / 2.0, -frame_size.y / 2.0, getPosition().z));
 }
 
 
