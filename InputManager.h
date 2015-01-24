@@ -59,15 +59,10 @@ struct KeyReleased
 class InputManager : public hb::EventManager<MouseButtonWindow, MouseButtonWorld, KeyPressed, KeyReleased>
 {
 public:
-	static InputManager* instance()
-	{
-		if (s_instance == nullptr)
-			s_instance = new InputManager();
-		return s_instance;
-	}
+	static InputManager* instance();
 
 private:
 	static InputManager* s_instance;
 };
-InputManager* InputManager::s_instance = nullptr;
+
 #endif
