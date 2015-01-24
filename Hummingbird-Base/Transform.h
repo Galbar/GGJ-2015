@@ -8,6 +8,7 @@ namespace hb
 	{
 	public:
 		Transform();
+		Transform(const Vector3d& init_pos);
 		~Transform();
 		const Vector3d& getPosition() const;
 		void setPosition(const Vector3d& p);

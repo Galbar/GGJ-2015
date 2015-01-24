@@ -1,12 +1,10 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "InputManager.h"
-<<<<<<< HEAD
 #include "Knight.h"
-=======
+#include "Hummingbird-Base.h"
+#include "Hummingbird-SFML.h"
 #include "Scene.h"
->>>>>>> 24e1c25dd4a8e5878494711aad5f2650a0a0c80e
-
 
 class MoveToClick : public hb::GameObject::Component
 {
@@ -31,11 +29,13 @@ int main(int argc, char const *argv[])
 {
 	hb::RenderWindowManager window_manager1(new sf::RenderWindow(sf::VideoMode(600, 600), "SFML works!"));
 
-<<<<<<< HEAD
-	Knight* go1 = new Knight(1, 0, 0, true, 500, 500);
+	PhysicsWorld::instance()->setGravity(Vector2d(0.0f, 5.0f));
+
+	Knight* go1 = new Knight(Vector3d(5, 5, 0), 1, 0, 0, true, 5, -10);
 	
 	hb::AnimatedSpriteComponent* sp1 = new hb::AnimatedSpriteComponent(&window_manager1);
 	sp1->setTexture("asd");
+	sp1->setFrameSize(hb::Vector2d(32, 32));
 	go1->addComponent(sp1);
 	hb::FunctionComponent* move = new hb::FunctionComponent();
 	move->setUpdateFunction([&] (hb::GameObject* go)
@@ -63,6 +63,7 @@ int main(int argc, char const *argv[])
 		if (ev.code == sf::Keyboard::Key::Left)
 			go2->setPosition(go2->getPosition() + hb::Vector3d(-1,0,0));
 	});
+
 	go2->addComponent(new MoveToClick());
 	hb::AnimatedSpriteComponent* sp2 = new hb::AnimatedSpriteComponent(&window_manager1);
 	sp2->setFrameTime(hb::Time::seconds(0.3));
@@ -74,14 +75,17 @@ int main(int argc, char const *argv[])
 	go2->setPosition(hb::Vector3d(60, 60, 1));
 
 	//std::cout << "go1 # FunctionComponent: " << go1.getComponents<hb::FunctionComponent>().size() << std::endl;
-=======
->>>>>>> 24e1c25dd4a8e5878494711aad5f2650a0a0c80e
 	hb::Time::deltaTime = hb::Time::seconds(0.001);
 	Scene scene(&window_manager1, Scene::LVL1);
+	sf::Clock clk;
+	Time lastTime = Time::microseconds(clk.getElapsedTime().asMicroseconds());
 	while (window_manager1.getWindow()->isOpen())
 	{
+		Time::deltaTime = Time::microseconds(clk.getElapsedTime().asMicroseconds())-lastTime;
+		lastTime = Time::microseconds(clk.getElapsedTime().asMicroseconds());
+
 		sf::Event event;
-		while (window_manager1.getWindow()->pollEvent(event))
+		if (window_manager1.getWindow()->pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
 			{
@@ -97,17 +101,16 @@ int main(int argc, char const *argv[])
 				KeyPressed kp(event.key);
 				InputManager::instance()->message(kp);
 			}
+			else if (event.type == sf::Event::KeyReleased)
+			{
+				KeyReleased kr(event.key);
+				InputManager::instance()->message(kr);
+			}
 		}
-<<<<<<< HEAD
 
 		hb::GameObject::updateAll();
+		hb::PhysicsWorld::instance()->update();
 
-		auto view = window_manager1.getWindow()->getView();
-		view.setCenter(go1->getPosition().x, go1->getPosition().y);
-		window_manager1.getWindow()->setView(view);
-=======
-		scene.update();
->>>>>>> 24e1c25dd4a8e5878494711aad5f2650a0a0c80e
 		window_manager1.draw();
 
 	}

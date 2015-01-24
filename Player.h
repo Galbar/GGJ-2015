@@ -5,7 +5,7 @@
 class Player : public GameObject
 {
 public:
-	Player(int player_number, int max_hp, int cur_hp, bool alive, int run_speed, int jump_speed);
+	Player(Vector3d init_pos, int player_number, int max_hp, int cur_hp, bool alive, int run_speed, int jump_speed);
 
 	static int current_player;
 

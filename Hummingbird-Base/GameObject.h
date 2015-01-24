@@ -38,6 +38,7 @@ namespace hb
 		static void updateAll();
 
 		GameObject();
+		GameObject(const Vector3d& init_pos);
 		~GameObject();
 		int getIdentifier() const;
 		const std::string& getName() const;

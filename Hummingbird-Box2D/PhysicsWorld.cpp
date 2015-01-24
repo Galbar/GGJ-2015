@@ -63,7 +63,7 @@ void PhysicsWorld::BeginContact(b2Contact* contact)
 	CollisionComponent* cA = (CollisionComponent*) contact->GetFixtureA()->GetBody()->GetUserData();
 	CollisionComponent* cB = (CollisionComponent*) contact->GetFixtureB()->GetBody()->GetUserData();
 
-
+	if (cA == nullptr || cB == nullptr) return;
 	cA->addCollision(cB);
 	cB->addCollision(cA);
 }

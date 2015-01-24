@@ -61,6 +61,14 @@ Transform()
 }
 
 
+GameObject::GameObject(const Vector3d& init_pos):
+Transform(init_pos)
+{
+	m_identifier = s_game_object_identifier++;	
+	s_game_objects_by_id.insert(std::pair<int, GameObject*>(m_identifier, this));
+}
+
+
 GameObject::~GameObject()
 {
 	for (Component* component : m_components)

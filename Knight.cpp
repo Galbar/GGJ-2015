@@ -1,7 +1,7 @@
 #include "Knight.h"
 
-Knight::Knight(int player_number, int max_hp, int cur_hp, bool alive, int run_speed, int jump_speed):
-Player(player_number, max_hp, cur_hp, alive, run_speed, jump_speed)
+Knight::Knight(Vector3d init_pos, int player_number, int max_hp, int cur_hp, bool alive, int run_speed, int jump_speed):
+Player(init_pos, player_number, max_hp, cur_hp, alive, run_speed, jump_speed)
 {
 	Vector3d p = getPosition();
 
@@ -28,10 +28,11 @@ Player(player_number, max_hp, cur_hp, alive, run_speed, jump_speed)
 	fixture.density = 2.0f;
 	fixture.friction = 0.0f;
 	fixture.shape = &box;
-	fixture.restitution = 0.3f;
+	fixture.restitution = 0.0f;
 	body->SetFixedRotation(true);
 	body->CreateFixture(&fixture);
 
 	CollisionComponent* cc = new CollisionComponent(body);
 	addComponent(cc);
+
 }

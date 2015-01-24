@@ -8,6 +8,13 @@ m_rotation_angle(Vector3d())
 {}
 
 
+Transform::Transform(const Vector3d& init_pos):
+m_position(init_pos),
+m_scale(Vector3d(1, 1, 1)),
+m_rotation_angle(Vector3d())
+{}
+
+
 Transform::~Transform()
 {}
 
