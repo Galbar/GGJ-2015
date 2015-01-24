@@ -31,4 +31,7 @@ Player(player_number, max_hp, cur_hp, alive, run_speed, jump_speed)
 	fixture.restitution = 0.3f;
 	fixture.userData = this;
 	body->CreateFixture(&fixture);
+
+	CollisionComponent* cc = new CollisionComponent(body);
+	addComponent(cc);
 }

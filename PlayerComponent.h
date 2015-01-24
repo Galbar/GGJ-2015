@@ -1,7 +1,9 @@
 #ifndef PLAYER_COMPONENT_H
 #define PLAYER_COMPONENT_H
 #include "Hummingbird-Base.h"
+#include "Hummingbird-Box2D.h"
 #include "InputManager.h"
+#include <vector>
 
 using namespace hb;
 
@@ -25,7 +27,9 @@ private:
 
 	// State attributes
 	int xDir;
+	int yDir;
 	bool jumping;
+	sf::Keyboard::Key last_key;
 
 
 	InputManager::ListenerId<KeyPressed> listen_key_pressed;

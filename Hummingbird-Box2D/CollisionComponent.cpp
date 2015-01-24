@@ -27,6 +27,12 @@ std::queue<CollisionComponent*> CollisionComponent::getCollisionQueue()
 }
 
 
+b2Body* CollisionComponent::getBody()
+{
+	return getData();
+}
+
+
 const b2Body* CollisionComponent::getBody() const
 {
 	return getData();

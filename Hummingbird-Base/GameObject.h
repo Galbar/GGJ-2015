@@ -47,13 +47,13 @@ namespace hb
 		void postUpdate();
 		void addComponent(Component* component);
 		template <typename ComponentType>
-		std::vector<Component*> getComponents() const
+		std::vector<ComponentType*> getComponents() const
 		{
-			std::vector<Component*> v;
+			std::vector<ComponentType*> v;
 			for (Component* component : m_components)
 			{
 				if (dynamic_cast<ComponentType*>(component))
-					v.push_back(component);
+					v.push_back(dynamic_cast<ComponentType*>(component));
 			}
 			return v;
 		}

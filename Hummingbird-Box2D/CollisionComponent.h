@@ -16,6 +16,7 @@ namespace hb
 		virtual ~CollisionComponent() override;
 		
 		void setBody(b2Body* b);
+		b2Body* getBody();
 		const b2Body* getBody() const;
 
 		std::queue<CollisionComponent*> getCollisionQueue();
