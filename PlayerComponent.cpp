@@ -85,19 +85,19 @@ void PlayerComponent::update()
 	grounded = false;
 	float size = getGameObject()->getScale().y;
 	Vector3d p = getGameObject()->getPosition();
-	float dist = PhysicsWorld::instance()->GetRayCastDistance(b2Vec2(p.x, p.y), b2Vec2(p.x, p.y-1.5), fixt);
+	float dist = PhysicsWorld::instance()->GetRayCastDistance(b2Vec2(p.x, p.y), b2Vec2(p.x, p.y-0.55), fixt);
 	if (fixt != NULL)
 	{
 		GameObject* ptr = (GameObject*) fixt->GetBody()->GetUserData();
 		grounded |= (dist < 1.0 && dist > 0.0 && ptr == nullptr);
 	}
-	dist = PhysicsWorld::instance()->GetRayCastDistance(b2Vec2(p.x-1, p.y), b2Vec2(p.x-1, p.y-1.5), fixt);
+	dist = PhysicsWorld::instance()->GetRayCastDistance(b2Vec2(p.x-0.55, p.y), b2Vec2(p.x-0.55, p.y-0.55), fixt);
 	if (fixt != NULL)
 	{
 		GameObject* ptr = (GameObject*) fixt->GetBody()->GetUserData();
 		grounded |= (dist < 1.0 && dist > 0.0 && ptr == nullptr);
 	}
-	dist = PhysicsWorld::instance()->GetRayCastDistance(b2Vec2(p.x+1, p.y), b2Vec2(p.x+1, p.y-1.5), fixt);
+	dist = PhysicsWorld::instance()->GetRayCastDistance(b2Vec2(p.x+0.55, p.y), b2Vec2(p.x+0.55, p.y-0.55), fixt);
 	if (fixt != NULL)
 	{
 		GameObject* ptr = (GameObject*) fixt->GetBody()->GetUserData();
