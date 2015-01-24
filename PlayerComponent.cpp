@@ -16,7 +16,7 @@ jump_speed(jump_speed)
 		if (e.code == sf::Keyboard::Key::D) xDir = 1, last_key = e.code;
 		else if (e.code == sf::Keyboard::Key::A) xDir = -1, last_key = e.code;
 		else if (e.code == sf::Keyboard::Key::Space || !jumping) yDir = 1, jumping = true;
-		std::cerr << "pressed! " << xDir << std::endl;
+		
 	});
 
 	listen_key_released = InputManager::instance()->listen([this](const KeyReleased& e)
@@ -56,7 +56,7 @@ void PlayerComponent::update()
 	std::vector<CollisionComponent*> collider = getGameObject()->getComponents<CollisionComponent>();
 	
 	b2Body* body = collider[0]->getBody();
-	body->SetLinearVelocity(b2Vec2(run_speed*xDir, yDir));
+	body->SetLinearVelocity(b2Vec2(run_speed*xDir, yDir*jump_speed));
 	if (yDir == 1) yDir = 0;
 
 	getGameObject()->setPosition(Vector3d(body->GetPosition().x, body->GetPosition().y, 0));
