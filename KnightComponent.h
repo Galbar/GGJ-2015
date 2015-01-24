@@ -11,11 +11,13 @@ class KnightComponent : public GameObject::Component
 {
 public:
 	KnightComponent();
+	~KnightComponent();
 
 	void update() override;
 
 private:
 	PlayerComponent* m_player_component;
+	InputManager::ListenerId<KeyPressed> m_listener_id;
 };
 
 #endif

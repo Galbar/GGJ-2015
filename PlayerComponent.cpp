@@ -1,8 +1,10 @@
 #include "PlayerComponent.h"
+#include "Scene.h"
 #include <iostream>
 
 int PlayerComponent::current_player = 1;
 GameObject* PlayerComponent::active_player = nullptr;
+int PlayerComponent::numFootContacts = 1;
 
 PlayerComponent::PlayerComponent(int player_number, int max_hp, int cur_hp, bool alive, int run_speed, int jump_speed):
 GameObject::Component(),
@@ -18,6 +20,11 @@ jump_speed(jump_speed)
 	yDir = 0;
 	jumping = false;
 	clickedJump = false;
+	grounded = true;
+
+	// Config
+	fl = new FootListener();
+	//PhysicsWorld::instance()->getWorld()->SetContactListener(fl);
 
 	// Input events
 	listen_key_pressed = InputManager::instance()->listen([this](const KeyPressed& e)
@@ -31,7 +38,8 @@ jump_speed(jump_speed)
 			active_player = getGameObject();
 			if (e.code == sf::Keyboard::Key::D) xDir = 1, last_key = e.code;
 			else if (e.code == sf::Keyboard::Key::A) xDir = -1, last_key = e.code;
-			else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump) yDir = 1, jumping = true;
+			else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump && grounded) 
+				yDir = 1, jumping = true, clickedJump = true, grounded = false;
 		}
 		
 	});
@@ -80,6 +88,8 @@ void PlayerComponent::update()
 		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, jump_speed));
 		jumping = false;
 	}
+
+	grounded = (numFootContacts >= 1);
 
 	getGameObject()->setPosition(Vector3d(body->GetPosition().x*32, body->GetPosition().y*32, getGameObject()->getPosition().z));
 }

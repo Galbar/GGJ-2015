@@ -4,6 +4,7 @@
 #include "Hummingbird-Box2D.h"
 #include "InputManager.h"
 #include <vector>
+#include <iostream>
 
 using namespace hb;
 
@@ -18,6 +19,58 @@ public:
 
 	static int current_player;
 	static GameObject* active_player;
+
+	class FootListener : public b2ContactListener
+	{
+		void BeginContact(b2Contact* contact) {
+			
+			//check if fixture A was the foot sensor
+			void* fixtureUserData = contact->GetFixtureA()->GetUserData();
+			if (fixtureUserData != NULL)
+				if (*(int*)fixtureUserData == 3 )
+				{
+					std::cerr << "CONTACTA" << std::endl;
+					numFootContacts++;
+					return;
+				}
+
+			//check if fixture B was the foot sensor
+			fixtureUserData = contact->GetFixtureB()->GetUserData();
+			if (fixtureUserData != NULL)
+				if ( *(int*)fixtureUserData == 3 )
+				{
+					std::cerr << "CONTACTA" << std::endl;
+					numFootContacts++;
+					return;
+				}
+			
+      }
+  
+        void EndContact(b2Contact* contact) {
+			//check if fixture A was the foot sensor
+			
+			void* fixtureUserData = contact->GetFixtureA()->GetUserData();
+			if (fixtureUserData != NULL)
+				if ( *(int*)fixtureUserData == 3 )
+				{
+					std::cerr << "CONTACTAAAA" << std::endl;
+             		numFootContacts--;
+             		return;
+				}
+		    //check if fixture B was the foot sensor
+		    fixtureUserData = contact->GetFixtureB()->GetUserData();
+		    if (fixtureUserData != NULL) 
+		    	if ( *(int*)fixtureUserData == 3 )
+		    	{
+		    		std::cerr << "CONTACTAAAA" << std::endl;
+            		numFootContacts--;
+            		return;
+		    	}
+        }
+	};
+
+	FootListener* fl;
+	static int numFootContacts;
 
 private:
 	//Player attributes
@@ -35,6 +88,7 @@ private:
 	int yDir;
 	bool jumping;
 	bool clickedJump;
+	bool grounded;
 	sf::Keyboard::Key last_key;
 
 

@@ -1,7 +1,32 @@
 #include "PhysicsWorld.h"
+#include <iostream>
+
 using namespace hb;
 
 PhysicsWorld* PhysicsWorld::s_instance = nullptr;
+
+
+class MyRayCastCallback : public b2RayCastCallback
+{
+public:
+	b2Fixture* m_fixture;
+	b2Vec2 m_point;
+	b2Vec2 m_normal;
+	float32 m_fraction;
+	MyRayCastCallback()
+	{
+		m_fixture = NULL;
+	}
+	float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float32 fraction)
+	{
+		m_fixture = fixture;
+		m_point = point;
+		m_normal = normal;
+		m_fraction = fraction;
+		return fraction;
+	}
+};
+
 
 PhysicsWorld::PhysicsWorld(b2Vec2 gravity)
 {
@@ -60,16 +85,46 @@ b2Body* PhysicsWorld::addBody(b2BodyDef* bd)
 
 void PhysicsWorld::BeginContact(b2Contact* contact)
 {
+	std::cerr << "contact" << std::endl;
 	CollisionComponent* cA = (CollisionComponent*) contact->GetFixtureA()->GetBody()->GetUserData();
 	CollisionComponent* cB = (CollisionComponent*) contact->GetFixtureB()->GetBody()->GetUserData();
+	std::cerr << "contacttttt" << std::endl;
 
-	if (cA == nullptr || cB == nullptr) return;
+	if (cA == NULL || cB == NULL) return;
 	cA->addCollision(cB);
 	cB->addCollision(cA);
+
+	std::cerr << "contaaaaaaact" << std::endl;
+
+}
+
+void BeginContact(b2Contact* contact) {
+  
+    //check if fixture A was a ball
+    void* bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
+    void* bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
+    if ( bodyUserDataA && bodyUserDataB )
+    {
+        static_cast<CollisionComponent*>( bodyUserDataA )->addCollision(static_cast<CollisionComponent*>(bodyUserDataB));
+        static_cast<CollisionComponent*>( bodyUserDataB )->addCollision(static_cast<CollisionComponent*>(bodyUserDataA));
+  	}
+  
 }
 
 
 void PhysicsWorld::update()
 {
 	world->Step(Time::deltaTime.asSeconds(), 8, 3);
+}
+
+
+float PhysicsWorld::GetRayCastDistance(b2Vec2 p1, b2Vec2 p2, b2Fixture*& fixt)
+{
+	MyRayCastCallback callback;
+	b2Vec2 point1(p1.x, p1.y);
+	b2Vec2 point2(p2.x, p2.y);
+	world->RayCast(&callback, point1, point2);
+	if (callback.m_fixture == NULL) return 123456;
+	fixt = callback.m_fixture;
+	return callback.m_fraction;
 }

@@ -26,12 +26,17 @@ Player(init_pos, player_number, max_hp, cur_hp, alive, run_speed, jump_speed)
 	b2PolygonShape box;
 	box.Set(vertices, 4);
 	b2FixtureDef fixture;
-	fixture.density = 2.0f;
+	fixture.density = 1.0f;
 	fixture.friction = 0.0f;
 	fixture.shape = &box;
 	fixture.restitution = 0.0f;
 	body->SetFixedRotation(true);
 	body->CreateFixture(&fixture);
+
+	box.SetAsBox(0.5, 0.3, b2Vec2(0,-0.4), 0);
+	fixture.isSensor = true;
+	b2Fixture* footSensorFixture = body->CreateFixture(&fixture);
+	footSensorFixture->SetUserData( (void*)3 );
 
 	CollisionComponent* cc = new CollisionComponent(body);
 	addComponent(cc);

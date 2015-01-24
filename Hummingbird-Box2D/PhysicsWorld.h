@@ -26,6 +26,8 @@ namespace hb
 
 		void update();
 
+		float GetRayCastDistance(b2Vec2 p1, b2Vec2 p2, b2Fixture *&fixt);
+
 	private:
 		static PhysicsWorld* s_instance;
 		b2World* world;
