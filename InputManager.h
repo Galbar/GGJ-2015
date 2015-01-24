@@ -1,5 +1,6 @@
 #ifndef INPUT_MANAGER_H
 #define INPUT_MANAGER_H
+#include <memory>
 #include <SFML/Window.hpp>
 #include "Hummingbird-Base/EventManager.h"
 #include "Hummingbird-SFML/RenderWindowManager.h"
@@ -62,7 +63,7 @@ public:
 	static InputManager* instance();
 
 private:
-	static InputManager* s_instance;
+	static std::unique_ptr<InputManager> s_instance;
 };
 
 #endif
