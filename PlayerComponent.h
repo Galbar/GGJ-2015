@@ -29,6 +29,7 @@ private:
 	int xDir;
 	int yDir;
 	bool jumping;
+	bool clickedJump;
 	sf::Keyboard::Key last_key;
 
 

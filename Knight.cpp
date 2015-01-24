@@ -23,13 +23,13 @@ Player(player_number, max_hp, cur_hp, alive, run_speed, jump_speed)
 	vertices[3].Set( 1,   1);
 
 	b2PolygonShape box;
-	box.Set(vertices, 4); //pass array to the shape
+	box.Set(vertices, 4);
 	b2FixtureDef fixture;
 	fixture.density = 2.0f;
 	fixture.friction = 0.0f;
 	fixture.shape = &box;
 	fixture.restitution = 0.3f;
-	fixture.userData = this;
+	body->SetFixedRotation(true);
 	body->CreateFixture(&fixture);
 
 	CollisionComponent* cc = new CollisionComponent(body);
