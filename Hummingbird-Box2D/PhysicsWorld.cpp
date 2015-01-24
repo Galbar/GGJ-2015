@@ -1,4 +1,6 @@
 #include "PhysicsWorld.h"
+#include <iostream>
+
 using namespace hb;
 
 PhysicsWorld* PhysicsWorld::s_instance = nullptr;
@@ -83,12 +85,30 @@ b2Body* PhysicsWorld::addBody(b2BodyDef* bd)
 
 void PhysicsWorld::BeginContact(b2Contact* contact)
 {
+	std::cerr << "contact" << std::endl;
 	CollisionComponent* cA = (CollisionComponent*) contact->GetFixtureA()->GetBody()->GetUserData();
 	CollisionComponent* cB = (CollisionComponent*) contact->GetFixtureB()->GetBody()->GetUserData();
+	std::cerr << "contacttttt" << std::endl;
 
-	if (cA == nullptr || cB == nullptr) return;
+	if (cA == NULL || cB == NULL) return;
 	cA->addCollision(cB);
 	cB->addCollision(cA);
+
+	std::cerr << "contaaaaaaact" << std::endl;
+
+}
+
+void BeginContact(b2Contact* contact) {
+  
+    //check if fixture A was a ball
+    void* bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
+    void* bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
+    if ( bodyUserDataA && bodyUserDataB )
+    {
+        static_cast<CollisionComponent*>( bodyUserDataA )->addCollision(static_cast<CollisionComponent*>(bodyUserDataB));
+        static_cast<CollisionComponent*>( bodyUserDataB )->addCollision(static_cast<CollisionComponent*>(bodyUserDataA));
+  	}
+  
 }
 
 

@@ -3,6 +3,7 @@
 #include <iostream>
 
 int PlayerComponent::current_player = 1;
+int PlayerComponent::numFootContacts = 1;
 
 PlayerComponent::PlayerComponent(int player_number, int max_hp, int cur_hp, bool alive, int run_speed, int jump_speed):
 GameObject::Component(),
@@ -20,6 +21,10 @@ jump_speed(jump_speed)
 	clickedJump = false;
 	grounded = true;
 
+	// Config
+	fl = new FootListener();
+	//PhysicsWorld::instance()->getWorld()->SetContactListener(fl);
+
 	// Input events
 	listen_key_pressed = InputManager::instance()->listen([this](const KeyPressed& e)
 	{
@@ -31,7 +36,8 @@ jump_speed(jump_speed)
 		{
 			if (e.code == sf::Keyboard::Key::D) xDir = 1, last_key = e.code;
 			else if (e.code == sf::Keyboard::Key::A) xDir = -1, last_key = e.code;
-			else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump && grounded) yDir = 1, jumping = true, clickedJump = true;
+			else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump && grounded) 
+				yDir = 1, jumping = true, clickedJump = true, grounded = false;
 		}
 		
 	});
@@ -81,28 +87,7 @@ void PlayerComponent::update()
 		jumping = false;
 	}
 
-	b2Fixture* fixt = NULL;
-	grounded = false;
-	float size = getGameObject()->getScale().y;
-	Vector3d p = getGameObject()->getPosition();
-	float dist = PhysicsWorld::instance()->GetRayCastDistance(b2Vec2(p.x, p.y), b2Vec2(p.x, p.y-0.55), fixt);
-	if (fixt != NULL)
-	{
-		GameObject* ptr = (GameObject*) fixt->GetBody()->GetUserData();
-		grounded |= (dist < 1.0 && dist > 0.0 && ptr == nullptr);
-	}
-	dist = PhysicsWorld::instance()->GetRayCastDistance(b2Vec2(p.x-0.55, p.y), b2Vec2(p.x-0.55, p.y-0.55), fixt);
-	if (fixt != NULL)
-	{
-		GameObject* ptr = (GameObject*) fixt->GetBody()->GetUserData();
-		grounded |= (dist < 1.0 && dist > 0.0 && ptr == nullptr);
-	}
-	dist = PhysicsWorld::instance()->GetRayCastDistance(b2Vec2(p.x+0.55, p.y), b2Vec2(p.x+0.55, p.y-0.55), fixt);
-	if (fixt != NULL)
-	{
-		GameObject* ptr = (GameObject*) fixt->GetBody()->GetUserData();
-		grounded |= (dist < 1.0 && dist > 0.0 && ptr == nullptr);
-	}
+	grounded = (numFootContacts >= 1);
 
 	getGameObject()->setPosition(Vector3d(body->GetPosition().x*32, body->GetPosition().y*32, getGameObject()->getPosition().z));
 }
