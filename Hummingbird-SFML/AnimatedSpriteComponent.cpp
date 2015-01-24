@@ -65,6 +65,7 @@ void AnimatedSpriteComponent::setFrameTime(const Time& frame_time)
 void AnimatedSpriteComponent::setFrameInterval(int begin_frame, int end_frame)
 {
 	m_begin_frame = begin_frame;
+	m_current_frame = begin_frame;
 	m_end_frame = end_frame;
 }
 
