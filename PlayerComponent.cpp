@@ -13,10 +13,10 @@ jump_speed(jump_speed)
 	// Input events
 	listen_key_pressed = InputManager::instance()->listen([this](const KeyPressed& e)
 	{
-		last_key = e.code;
-		if (e.code == sf::Keyboard::Key::D) xDir = 1;
-		else if (e.code == sf::Keyboard::Key::A) xDir = -1;
+		if (e.code == sf::Keyboard::Key::D) xDir = 1, last_key = e.code;
+		else if (e.code == sf::Keyboard::Key::A) xDir = -1, last_key = e.code;
 		else if (e.code == sf::Keyboard::Key::Space || !jumping) yDir = 1, jumping = true;
+		std::cerr << "pressed! " << xDir << std::endl;
 	});
 
 	listen_key_released = InputManager::instance()->listen([this](const KeyReleased& e)
