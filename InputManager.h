@@ -2,6 +2,7 @@
 #define INPUT_MANAGER_H
 #include <memory>
 #include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 #include "Hummingbird-Base/EventManager.h"
 #include "Hummingbird-SFML/RenderWindowManager.h"
 
@@ -57,7 +58,27 @@ struct KeyReleased
 };
 
 
-class InputManager : public hb::EventManager<MouseButtonWindow, MouseButtonWorld, KeyPressed, KeyReleased>
+struct JoyButtonPressed
+{
+	unsigned int joystickId, button;
+	explicit JoyButtonPressed(const sf::Event::JoystickButtonEvent& ev):
+	joystickId(ev.joystickId),
+	button(ev.button)
+	{}
+};
+
+
+struct JoyButtonReleased
+{
+	unsigned int joystickId, button;
+	explicit JoyButtonReleased(const sf::Event::JoystickButtonEvent& ev):
+	joystickId(ev.joystickId),
+	button(ev.button)
+	{}
+};
+
+
+class InputManager : public hb::EventManager<MouseButtonWindow, MouseButtonWorld, KeyPressed, KeyReleased, JoyButtonPressed, JoyButtonReleased>
 {
 public:
 	static InputManager* instance();

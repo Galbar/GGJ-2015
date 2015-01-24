@@ -136,6 +136,16 @@ int main(int argc, char const *argv[])
 				KeyReleased kr(event.key);
 				InputManager::instance()->message(kr);
 			}
+			else if (event.type == sf::Event::JoystickButtonPressed)
+			{
+				JoyButtonPressed jbp(event.joystickButton);
+				InputManager::instance()->message(jbp);
+			}
+			else if (event.type == sf::Event::JoystickButtonReleased)
+			{
+				JoyButtonReleased jbr(event.joystickButton);
+				InputManager::instance()->message(jbr);
+			}
 		}
 
 		hb::PhysicsWorld::instance()->update();

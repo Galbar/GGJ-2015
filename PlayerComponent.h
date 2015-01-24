@@ -75,13 +75,10 @@ public:
 private:
 	//Player attributes
 	int cur_hp;
-	int max_hp;
-	bool alive;
 	bool active;
-
-	int player_number;
-	int run_speed;
-	int jump_speed;
+	bool alive;
+	bool controller;
+	int controllerId;
 
 	// State attributes
 	int xDir;
