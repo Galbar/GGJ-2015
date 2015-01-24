@@ -15,11 +15,14 @@ public:
 
 	void update() override;
 
+	static int current_player;
+
 private:
 	//Player attributes
 	int cur_hp;
 	int max_hp;
 	bool alive;
+	bool active;
 
 	int player_number;
 	int run_speed;

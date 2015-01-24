@@ -36,7 +36,37 @@ int main(int argc, char const *argv[])
 	hb::AnimatedSpriteComponent* sp1 = new hb::AnimatedSpriteComponent(&window_manager1);
 	sp1->setTexture("asd");
 	sp1->setFrameSize(hb::Vector2d(32, 32));
+	//sp1->setScale(hb::Vector3d(1, 2, 1));
 	go1->addComponent(sp1);
+
+
+	go1 = new Knight(Vector3d(7, 5, 0), 2, 0, 0, true, 5, -10);
+	
+	sp1 = new hb::AnimatedSpriteComponent(&window_manager1);
+	sp1->setTexture("asd");
+	sp1->setFrameSize(hb::Vector2d(32, 32));
+	//sp1->setScale(hb::Vector3d(1, 2, 1));
+	go1->addComponent(sp1);
+
+
+	go1 = new Knight(Vector3d(3, 5, 0), 3, 0, 0, true, 5, -10);
+	
+	sp1 = new hb::AnimatedSpriteComponent(&window_manager1);
+	sp1->setTexture("asd");
+	sp1->setFrameSize(hb::Vector2d(32, 32));
+	//sp1->setScale(hb::Vector3d(1, 2, 1));
+	go1->addComponent(sp1);
+
+
+	go1 = new Knight(Vector3d(9, 5, 0), 4, 0, 0, true, 5, -10);
+	
+	sp1 = new hb::AnimatedSpriteComponent(&window_manager1);
+	sp1->setTexture("asd");
+	sp1->setFrameSize(hb::Vector2d(32, 32));
+	//sp1->setScale(hb::Vector3d(1, 2, 1));
+	go1->addComponent(sp1);
+
+
 	hb::FunctionComponent* move = new hb::FunctionComponent();
 	move->setUpdateFunction([&] (hb::GameObject* go)
 	{
