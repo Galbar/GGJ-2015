@@ -129,18 +129,17 @@ int main(int argc, char const *argv[])
 
 		hb::PhysicsWorld::instance()->update();
 
-		scene.update();
-		int max = 0;
-		if (player1->isAlive()) max = player1->getPosition().x;
-		if (max < player2->getPosition().x && player2->isAlive()) max = player2->getPosition().x;
-		if (max < player3->getPosition().x && player3->isAlive()) max = player3->getPosition().x;
-		if (max < player4->getPosition().x && player4->isAlive()) max = player4->getPosition().x;
+		int Xmax = 0;
+		if (player1->isAlive()) Xmax = player1->getPosition().x;
+		if (Xmax < player2->getPosition().x && player2->isAlive()) Xmax = player2->getPosition().x;
+		if (Xmax < player3->getPosition().x && player3->isAlive()) Xmax = player3->getPosition().x;
+		if (Xmax < player4->getPosition().x && player4->isAlive()) Xmax = player4->getPosition().x;
 
-		int min = 0;
-		if (player1->isAlive()) min = player1->getPosition().x;
-		if (min > player2->getPosition().x && player2->isAlive()) min = player2->getPosition().x;
-		if (min > player3->getPosition().x && player3->isAlive()) min = player3->getPosition().x;
-		if (min > player4->getPosition().x && player4->isAlive()) min = player4->getPosition().x;
+		int Xmin = 0;
+		if (player1->isAlive()) Xmin = player1->getPosition().x;
+		if (Xmin > player2->getPosition().x && player2->isAlive()) Xmin = player2->getPosition().x;
+		if (Xmin > player3->getPosition().x && player3->isAlive()) Xmin = player3->getPosition().x;
+		if (Xmin > player4->getPosition().x && player4->isAlive()) Xmin = player4->getPosition().x;
 
 		int Ymax= 0;
 		if (player1->isAlive()) Ymax = player1->getPosition().y;
@@ -154,16 +153,31 @@ int main(int argc, char const *argv[])
 		if (Ymin > player3->getPosition().y && player3->isAlive()) Ymin = player3->getPosition().y;
 		if (Ymin > player4->getPosition().y && player4->isAlive()) Ymin = player4->getPosition().y;
 
-		if (max-min >= 10)
+		scene.update();
+
+		std::cout << Xmin << " " << Xmax << std::endl;
+
+		if (Xmax-Xmin >= 1000)
 		{
-			if (min == player1->getPosition().x) player1->die();
-			if (min == player2->getPosition().x) player2->die();
-			if (min == player3->getPosition().x) player3->die();
-			if (min == player4->getPosition().x) player4->die();
+			if (Xmin+10 >= player1->getPosition().x) player1->die();
+			if (Xmin+10 >= player2->getPosition().x) player2->die();
+			if (Xmin+10 >= player3->getPosition().x) player3->die();
+			if (Xmin+10 >= player4->getPosition().x) player4->die();
 		}
 
+		if (player1->getPosition().y > 1800) player1->die();
+		if (player2->getPosition().y > 1800) player2->die();
+		if (player3->getPosition().y > 1800) player3->die();
+		if (player4->getPosition().y > 1800) player4->die();
+
+		if (player1->getPosition().y < 120) player1->die();
+		if (player2->getPosition().y < 120) player2->die();
+		if (player3->getPosition().y < 120) player3->die();
+		if (player4->getPosition().y < 120) player4->die();
+
+
 		auto view = window_manager1.getWindow()->getView();
-		view.setCenter(sf::Vector2f((max*1.4+min)/2, (Ymax*1.4+Ymin)/2));
+		view.setCenter(sf::Vector2f((Xmax*1.4+Xmin)/2.4, (Ymax*1.4+Ymin)/2.4));
 		window_manager1.getWindow()->setView(view);
 
 		GameObject::updateHUD();
