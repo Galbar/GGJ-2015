@@ -47,7 +47,7 @@ player_number(player_number)
 
 	listen_joy_pressed = InputManager::instance()->listen([this](const JoyButtonPressed& e)
 	{
-		if (controller && e.joystickId == controllerId && alive)
+		if (controller && (int)e.joystickId == controllerId && alive)
 		{
 			if (e.button == 0 && !jumping && !clickedJump && stamina >= 30.0)
 				yDir = 1, jumping = true, clickedJump = true;
@@ -56,7 +56,7 @@ player_number(player_number)
 
 	listen_joy_released = InputManager::instance()->listen([this](const JoyButtonReleased& e)
 	{
-		if (controller && e.joystickId == controllerId && alive)
+		if (controller && (int)e.joystickId == controllerId && alive)
 		{
 			if (e.button == 0) jumping = false, clickedJump = false;
 		}
@@ -64,7 +64,7 @@ player_number(player_number)
 
 	listen_joy_axis = InputManager::instance()->listen([this](const JoyAxis& e)
 	{
-		if (controller && e.joystickId == controllerId && alive)
+		if (controller && (int)e.joystickId == controllerId && alive)
 		{
 			if (e.axis == sf::Joystick::Axis::X)
 			{
@@ -89,7 +89,7 @@ PlayerComponent::~PlayerComponent()
 void PlayerComponent::update()
 {
 	if (not alive) return;
-	stamina += 12.0*Time::deltaTime.asSeconds();
+	stamina += 10.0*Time::deltaTime.asSeconds();
 	if (stamina > 100.0) stamina = 100.0;
 	std::vector<CollisionComponent*> collider = getGameObject()->getComponents<CollisionComponent>();
 
