@@ -25,7 +25,7 @@ player_number(player_number)
 		{
 			if (e.code == sf::Keyboard::Key::D) xDir = 1, last_key = e.code;
 			else if (e.code == sf::Keyboard::Key::A) xDir = -1, last_key = e.code;
-			else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump && stamina >=30.0) 
+			else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump && stamina >=JUMP_STAMINA) 
 				yDir = 1, jumping = true, clickedJump = true;
 		}
 		
@@ -86,10 +86,22 @@ PlayerComponent::~PlayerComponent()
 }
 
 
+bool PlayerComponent::isAlive()
+{
+	return alive;
+}
+
+
+void PlayerComponent::die()
+{
+	alive = false;
+}
+
+
 void PlayerComponent::update()
 {
 	if (not alive) return;
-	stamina += 10.0*Time::deltaTime.asSeconds();
+	stamina += 15.0*Time::deltaTime.asSeconds();
 	if (stamina > 100.0) stamina = 100.0;
 	std::vector<CollisionComponent*> collider = getGameObject()->getComponents<CollisionComponent>();
 
@@ -114,7 +126,7 @@ void PlayerComponent::update()
 	body->SetLinearVelocity(b2Vec2(run_speed*xDir, body->GetLinearVelocity().y));
 	if (jumping)
 	{
-		stamina -= 20;
+		stamina -= JUMP_STAMINA;
 		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, jump_speed));
 		jumping = false;
 	}

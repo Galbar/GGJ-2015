@@ -7,6 +7,8 @@
 #include <vector>
 #include <iostream>
 
+#define JUMP_STAMINA 20.0
+
 using namespace hb;
 
 class PlayerComponent : public GameObject::Component
@@ -20,6 +22,9 @@ public:
 
 	double getStamina();
 	const double getStamina() const;
+
+	bool isAlive();
+	void die();
 
 	int player_number;
 

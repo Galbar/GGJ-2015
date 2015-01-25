@@ -8,7 +8,6 @@ player(pc)
 StaminaComponent::~StaminaComponent()
 {}
 
-
 void StaminaComponent::update()
 {
 	double stamina = player->getStamina();
