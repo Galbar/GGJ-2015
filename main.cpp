@@ -56,6 +56,12 @@ int main(int argc, char const *argv[])
 	Scene scene(&window_manager1, Scene::LVL1);
 	sf::Clock clk;
 	Time lastTime = Time::microseconds(clk.getElapsedTime().asMicroseconds());
+	//std::cout << "haisus" << std::endl;
+	InputManager::instance()->listen([](const KeyPressed& e)
+	{
+		if (e.code == sf::Keyboard::Key::O)
+			std::cout << "############ ATENCION!! ############" << std::endl;
+	});
 	while (window_manager1.getWindow()->isOpen())
 	{
 		Time::deltaTime = Time::microseconds(clk.getElapsedTime().asMicroseconds())-lastTime;

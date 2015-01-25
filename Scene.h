@@ -2,6 +2,7 @@
 #define SCENE_H
 #include <cstdlib>
 #include <ctime>
+#include <queue>
 #include "Hummingbird-Base.h"
 #include "Hummingbird-SFML.h"
 #include "Hummingbird-Box2D.h"
@@ -22,8 +23,10 @@ public:
 
 protected:
 	static std::string getLevelPath();
-	hb::GameObject* m_tilemap_obj;
-	LavaField* m_lava_fields;
+	double m_i;
+	std::queue<std::queue<b2Body*>> m_b2Fragments;
+	std::queue<hb::GameObject*> m_tilemap_objs;
+	std::queue<hb::GameObject*> m_lava_fields;
 	hb::RenderWindowManager* m_window_manager;
 };
 #endif

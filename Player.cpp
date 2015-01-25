@@ -4,6 +4,7 @@ Player::Player(Vector3d init_pos, int player_number, bool controller, int contro
 GameObject(init_pos),
 player_number(player_number)
 {
+	setName("player");
 	PlayerComponent* pc = new PlayerComponent(player_number, controller, controllerId);
 	addComponent(pc);
 	player_controller = pc;

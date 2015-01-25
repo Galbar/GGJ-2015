@@ -25,7 +25,7 @@ player_number(player_number)
 		{
 			if (e.code == sf::Keyboard::Key::D) xDir = 1, last_key = e.code;
 			else if (e.code == sf::Keyboard::Key::A) xDir = -1, last_key = e.code;
-			else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump && stamina >=30.0) 
+			else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump/* && stamina >=30.0*/) 
 				yDir = 1, jumping = true, clickedJump = true;
 		}
 		
