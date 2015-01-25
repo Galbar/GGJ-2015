@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Scene.h"
 
 bool pixel_is_corner(const sf::Image& img, int x, int y)
@@ -18,8 +19,23 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 {
 	m_tilemap_obj = new hb::GameObject();
 	m_lava_fields = new LavaField();
+	m_window_manager = window_manager;
+	loadFragment(getLevelPath(), m_window_manager);
+}
+
+
+Scene::~Scene()
+{
+	hb::GameObject::destroyAll();
+	hb::TextureManager::instance()->clear();
+	hb::SoundManager::instance()->clear();
+}
+
+
+void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manager)
+{
 	sf::Image tilemap;
-	tilemap.loadFromFile(getLevelPath(lvl));
+	tilemap.loadFromFile(path);
 	sf::Vector2u size = tilemap.getSize();
 	m_tilemap_obj->setPosition(hb::Vector3d(0.5, 0, -1000));
 
@@ -35,10 +51,13 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 			t = new hb::SpriteComponent(window_manager);
 			//t->setTexture("tilemap.png", sf::IntRect(138, 308, 32, 32));
 			t->setTexture("tilemap.png", sf::IntRect(274, 410, 32, 32));
+			std::cout << "Pixel: (" << i << ", " << j << ")" << std::endl;
 			if (tilemap.getPixel(i, j) != sf::Color::White) // if background
 			{
+				std::cout << "\tEs fondo" << std::endl;
 				if (in_collider)
 				{
+					std::cout << "\t\tSaliendo del collider" << std::endl;
 					in_collider = false;
 					b2BodyDef myBodyDef;
 					myBodyDef.type = b2_staticBody;
@@ -56,16 +75,20 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 			}
 			else if (tilemap.getPixel(i, j) == sf::Color::White)
 			{
+				std::cout << "\tEs frente" << std::endl;
 				t->setTexture("tilemap.png", sf::IntRect(548, 240, 32, 32));
 				//t->setTexture("tilemap.png", sf::IntRect(36, 308, 32, 32));
+				std::cout << "(" << i << j-1 << "):" << (int)tilemap.getPixel(i, j - 1).r << ", " << (int)tilemap.getPixel(i, j - 1).g << "," << (int)tilemap.getPixel(i, j - 1).b << std::endl;
 				if (((j != 0 and tilemap.getPixel(i, j - 1) == sf::Color::Black) or (j != size.y-1 and tilemap.getPixel(i, j + 1) == sf::Color::Black)) and not in_collider)
 				{
+					std::cout << "\t\tEntrando del collider" << std::endl;
 					in_collider = true;
 					collider_begin = hb::Vector2d(i, j);
 
 				}
 				else if (in_collider and not ((j != 0 and tilemap.getPixel(i, j - 1) == sf::Color::Black) or (j != size.y-1 and tilemap.getPixel(i, j + 1) == sf::Color::Black)))
 				{
+					std::cout << "\t\tSaliendo del collider" << std::endl;
 					in_collider = false;
 					b2BodyDef myBodyDef;
 					myBodyDef.type = b2_staticBody;
@@ -83,6 +106,7 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 
 			if (in_lava_pool and tilemap.getPixel(i, j) != sf::Color(255, 0, 0))
 			{
+					std::cout << "\t\tSaliendo del collider" << std::endl;
 				in_lava_pool = false;
 				b2BodyDef myBodyDef;
 				myBodyDef.type = b2_staticBody;
@@ -285,24 +309,20 @@ Scene::Scene(hb::RenderWindowManager* window_manager, levels lvl)
 }
 
 
-Scene::~Scene()
-{
-	hb::GameObject::destroyAll();
-	hb::TextureManager::instance()->clear();
-	hb::SoundManager::instance()->clear();
-}
-
-
 void Scene::update()
 {
 	hb::GameObject::updateAll();
 }
 
 
-std::string Scene::getLevelPath(levels lvl)
+std::string Scene::getLevelPath()
 {
-	std::vector<std::string> v(COUNT);
-	v[LVL1] = "lvl-demo.png";
+	std::vector<std::string> v(5);
+	v[0] = "lvl-part0.png";
+	v[1] = "lvl-part1.png";
+	v[2] = "lvl-part2.png";
+	v[3] = "lvl-part3.png";
+	v[4] = "lvl-part4.png";
 
-	return v[lvl];
+	return v[rand() % 5];
 }

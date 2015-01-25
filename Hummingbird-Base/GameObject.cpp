@@ -16,13 +16,14 @@ GameObject* GameObject::getGameObjectById(int id)
 }
 
 
-const std::vector<GameObject*>& GameObject::getGameObjectsByName(const std::string& name)
+std::vector<GameObject*> GameObject::getGameObjectsByName(const std::string& name)
 {
-	const std::vector<GameObject*>* v = nullptr;
+	std::vector<GameObject*> v;
+	
 	auto s = s_game_objects_by_name.find(name);
 	if (s != s_game_objects_by_name.end())
-		v = &s->second;
-	return *v;
+		v = s->second;
+	return v;
 }
 
 

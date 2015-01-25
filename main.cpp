@@ -28,11 +28,12 @@ private:
 
 int main(int argc, char const *argv[])
 {
-	hb::RenderWindowManager window_manager1(new sf::RenderWindow(sf::VideoMode(600, 600), "SFML works!"));
+	srand (time(NULL));
+	hb::RenderWindowManager window_manager1(new sf::RenderWindow(sf::VideoMode(1280, 720), "SFML works!"));
 
 	PhysicsWorld::instance()->setGravity(Vector2d(0.0f, 15.0f));
 
-	Player* player = new Player(hb::Vector3d(9, 17, 0), 1, false, 0);
+	Player* player = new Player(hb::Vector3d(5, 10, 0), 1, false, 0);
 	HUDplayer* hud_player1 = new HUDplayer(player, &window_manager1);
 	hb::AnimatedSpriteComponent* sc = new hb::AnimatedSpriteComponent(&window_manager1);
 	sc->setTexture("Asd");
