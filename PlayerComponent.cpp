@@ -3,7 +3,8 @@
 #include <iostream>
 
 PlayerComponent::PlayerComponent(int player_number, bool cont, int contId):
-GameObject::Component()
+GameObject::Component(),
+player_number(player_number)
 {
 	// Initial values
 	xDir = 0;
@@ -14,6 +15,7 @@ GameObject::Component()
 	controllerId = contId;
 	run_speed = 15.0;
 	jump_speed = -22.0;
+	stamina = 100.0;
 
 	// Input events
 	listen_key_pressed = InputManager::instance()->listen([this](const KeyPressed& e)
@@ -22,7 +24,7 @@ GameObject::Component()
 		{
 			if (e.code == sf::Keyboard::Key::D) xDir = 1, last_key = e.code;
 			else if (e.code == sf::Keyboard::Key::A) xDir = -1, last_key = e.code;
-			else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump) 
+			else if (e.code == sf::Keyboard::Key::Space && !jumping && !clickedJump && stamina >=30.0) 
 				yDir = 1, jumping = true, clickedJump = true;
 		}
 		
@@ -57,6 +59,9 @@ PlayerComponent::~PlayerComponent()
 
 void PlayerComponent::update()
 {
+	stamina += 12.0*Time::deltaTime.asSeconds();
+	if (stamina > 100.0) stamina = 100.0;
+
 	std::vector<CollisionComponent*> collider = getGameObject()->getComponents<CollisionComponent>();
 
 	b2Body* body = collider[0]->getBody();
@@ -64,6 +69,7 @@ void PlayerComponent::update()
 	body->SetLinearVelocity(b2Vec2(run_speed*xDir, body->GetLinearVelocity().y));
 	if (jumping)
 	{
+		stamina -= 30;
 		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, jump_speed));
 		jumping = false;
 	}
@@ -74,4 +80,10 @@ void PlayerComponent::update()
 int PlayerComponent::getXDir() const
 {
 	return xDir;
+}
+
+
+double PlayerComponent::getStamina()
+{
+	return stamina;
 }

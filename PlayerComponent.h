@@ -2,6 +2,7 @@
 #define PLAYER_COMPONENT_H
 #include "Hummingbird-Base.h"
 #include "Hummingbird-Box2D.h"
+#include "Hummingbird-SFML.h"
 #include "InputManager.h"
 #include <vector>
 #include <iostream>
@@ -17,6 +18,11 @@ public:
 	void update() override;
 	int getXDir() const;
 
+	double getStamina();
+	const double getStamina() const;
+
+	int player_number;
+
 private:
 	//Player attributes
 	bool active;
@@ -25,6 +31,7 @@ private:
 	int controllerId;
 	double run_speed;
 	double jump_speed;
+	double stamina;
 
 
 	// State attributes

@@ -5,6 +5,7 @@
 #include "Hummingbird-Base.h"
 #include "Hummingbird-SFML.h"
 #include "Scene.h"
+#include "HUDplayer.h"
 
 class MoveToClick : public hb::GameObject::Component
 {
@@ -32,6 +33,7 @@ int main(int argc, char const *argv[])
 	PhysicsWorld::instance()->setGravity(Vector2d(0.0f, 15.0f));
 
 	Player* player = new Player(hb::Vector3d(9, 17, 0), 1, false, 0);
+	HUDplayer* hud_player1 = new HUDplayer(player, &window_manager1);
 	hb::AnimatedSpriteComponent* sc = new hb::AnimatedSpriteComponent(&window_manager1);
 	sc->setTexture("Asd");
 	sc->setFrameSize(hb::Vector2d(32, 32));

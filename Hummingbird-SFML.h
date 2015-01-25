@@ -3,3 +3,4 @@
 #include "Hummingbird-SFML/SoundComponent.h"
 #include "Hummingbird-SFML/SpriteComponent.h"
 #include "Hummingbird-SFML/TextureManager.h"
+#include "Hummingbird-SFML/ShapeComponent.h"
