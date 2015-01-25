@@ -33,13 +33,34 @@ int main(int argc, char const *argv[])
 
 	PhysicsWorld::instance()->setGravity(Vector2d(0.0f, 15.0f));
 
-	Player* player = new Player(hb::Vector3d(5, 10, 0), 1, false, 0);
-	HUDplayer* hud_player1 = new HUDplayer(player, &window_manager1);
-	hb::AnimatedSpriteComponent* sc = new hb::AnimatedSpriteComponent(&window_manager1);
-	sc->setTexture("Asd");
-	sc->setFrameSize(hb::Vector2d(32, 32));
-	sc->setFrameInterval(0, 2);
-	player->addComponent(sc);
+	Player* player1 = new Player(hb::Vector3d(9, 17, 0), 1, false, 1);
+	Player* player2 = new Player(hb::Vector3d(9, 15, 0), 2, true, 0);
+	Player* player3 = new Player(hb::Vector3d(9, 13, 0), 3, true, 1);
+	Player* player4 = new Player(hb::Vector3d(9, 11, 0), 4, true, 2);
+	HUDplayer* hud_player1 = new HUDplayer(player1, &window_manager1);
+	HUDplayer* hud_player2 = new HUDplayer(player2, &window_manager1);
+	HUDplayer* hud_player3 = new HUDplayer(player3, &window_manager1);
+	HUDplayer* hud_player4 = new HUDplayer(player4, &window_manager1);
+	hb::AnimatedSpriteComponent* sc1 = new hb::AnimatedSpriteComponent(&window_manager1);
+	sc1->setTexture("Asd");
+	sc1->setFrameSize(hb::Vector2d(32, 32));
+	sc1->setFrameInterval(0, 2);
+	hb::AnimatedSpriteComponent* sc2 = new hb::AnimatedSpriteComponent(&window_manager1);
+	sc2->setTexture("Asd");
+	sc2->setFrameSize(hb::Vector2d(32, 32));
+	sc2->setFrameInterval(0, 2);
+	hb::AnimatedSpriteComponent* sc3 = new hb::AnimatedSpriteComponent(&window_manager1);
+	sc3->setTexture("Asd");
+	sc3->setFrameSize(hb::Vector2d(32, 32));
+	sc3->setFrameInterval(0, 2);
+	hb::AnimatedSpriteComponent* sc4 = new hb::AnimatedSpriteComponent(&window_manager1);
+	sc4->setTexture("Asd");
+	sc4->setFrameSize(hb::Vector2d(32, 32));
+	sc4->setFrameInterval(0, 2);
+	player1->addComponent(sc1);
+	player2->addComponent(sc2);
+	player3->addComponent(sc3);
+	player4->addComponent(sc4);
 	hb::GameObject* go2 = new GameObject();
 
 	go2->addComponent(new MoveToClick());
@@ -52,7 +73,6 @@ int main(int argc, char const *argv[])
 	go2->addComponent(sp2);
 	go2->setPosition(hb::Vector3d(60, 60, 1));
 
-	hb::Time::deltaTime = hb::Time::seconds(0.001);
 	Scene scene(&window_manager1, Scene::LVL1);
 	sf::Clock clk;
 	Time lastTime = Time::microseconds(clk.getElapsedTime().asMicroseconds());
@@ -99,6 +119,11 @@ int main(int argc, char const *argv[])
 				JoyButtonReleased jbr(event.joystickButton);
 				InputManager::instance()->message(jbr);
 			}
+			else if (event.type == sf::Event::JoystickMoved)
+			{
+				JoyAxis ja(event.joystickMove);
+				InputManager::instance()->message(ja);
+			}
 			else if (event.type == sf::Event::Resized)
 			{
 				auto view = window_manager1.getWindow()->getView();
@@ -108,11 +133,14 @@ int main(int argc, char const *argv[])
 		}
 
 		hb::PhysicsWorld::instance()->update();
+
 		scene.update();
 
 		auto view = window_manager1.getWindow()->getView();
-		view.setCenter(sf::Vector2f(player->getPosition().x, player->getPosition().y));
+		view.setCenter(sf::Vector2f(player1->getPosition().x, player1->getPosition().y));
 		window_manager1.getWindow()->setView(view);
+
+		GameObject::updateHUD();
 
 		window_manager1.draw();
 

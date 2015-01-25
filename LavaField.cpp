@@ -2,6 +2,8 @@
 
 LavaField::LavaField():
 GameObject()
-{}
+{
+	setName("Lava");
+}
 LavaField::~LavaField()
 {}

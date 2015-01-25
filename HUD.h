@@ -9,9 +9,7 @@ class HUD : public GameObject
 {
 public:
 	HUD();
-	static Vector3d windowToWorldCoord(Vector2d);
-
-private:
+	static Vector3d windowToWorldCoord(Vector2d, RenderWindowManager* render);
 
 };
 

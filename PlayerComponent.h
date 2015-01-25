@@ -47,6 +47,7 @@ private:
 	InputManager::ListenerId<KeyReleased> listen_key_released;
 	InputManager::ListenerId<JoyButtonPressed> listen_joy_pressed;
 	InputManager::ListenerId<JoyButtonReleased> listen_joy_released;
+	InputManager::ListenerId<JoyAxis> listen_joy_axis;
 
 };
 

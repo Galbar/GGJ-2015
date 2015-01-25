@@ -45,7 +45,35 @@ player_number(player_number)
 
 	});
 
-	
+	listen_joy_pressed = InputManager::instance()->listen([this](const JoyButtonPressed& e)
+	{
+		if (controller && (int)e.joystickId == controllerId && alive)
+		{
+			if (e.button == 0 && !jumping && !clickedJump && stamina >= 30.0)
+				yDir = 1, jumping = true, clickedJump = true;
+		}
+	});
+
+	listen_joy_released = InputManager::instance()->listen([this](const JoyButtonReleased& e)
+	{
+		if (controller && (int)e.joystickId == controllerId && alive)
+		{
+			if (e.button == 0) jumping = false, clickedJump = false;
+		}
+	});
+
+	listen_joy_axis = InputManager::instance()->listen([this](const JoyAxis& e)
+	{
+		if (controller && (int)e.joystickId == controllerId && alive)
+		{
+			if (e.axis == sf::Joystick::Axis::X)
+			{
+				if (e.position > 30) xDir = 1;
+				else if (e.position < -30) xDir = -1;
+				else xDir = 0;
+			}
+		}
+	});
 }
 
 
@@ -61,7 +89,7 @@ PlayerComponent::~PlayerComponent()
 void PlayerComponent::update()
 {
 	if (not alive) return;
-	stamina += 12.0*Time::deltaTime.asSeconds();
+	stamina += 10.0*Time::deltaTime.asSeconds();
 	if (stamina > 100.0) stamina = 100.0;
 	std::vector<CollisionComponent*> collider = getGameObject()->getComponents<CollisionComponent>();
 
@@ -72,7 +100,7 @@ void PlayerComponent::update()
 		CollisionComponent* cc = q.front();
 		q.pop();
 		GameObject* go = cc->getGameObject();
-		if (static_cast<LavaField*>(go))
+		if (go->getName() == "Lava")
 		{
 			alive = false;
 			auto sp = getGameObject()->getComponents<SpriteComponent>();

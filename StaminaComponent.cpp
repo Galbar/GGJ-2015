@@ -8,6 +8,6 @@ player(pc)
 void StaminaComponent::update()
 {
 	double stamina = player->getStamina();
-	sf::Shape* aux = new sf::RectangleShape(sf::Vector2f(stamina, 20.0));
+	sf::Shape* aux = new sf::RectangleShape(sf::Vector2f(stamina*2, 30.0));
 	setShape(aux);
 }
