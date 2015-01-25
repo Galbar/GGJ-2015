@@ -14,7 +14,7 @@ player_number(player_number)
 	alive = true;
 	controller = cont;
 	controllerId = contId;
-	run_speed = 55.0;
+	run_speed = 25.0;
 	jump_speed = -22.0;
 	stamina = 100.0;
 
