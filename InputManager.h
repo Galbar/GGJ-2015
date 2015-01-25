@@ -78,7 +78,20 @@ struct JoyButtonReleased
 };
 
 
-class InputManager : public hb::EventManager<MouseButtonWindow, MouseButtonWorld, KeyPressed, KeyReleased, JoyButtonPressed, JoyButtonReleased>
+struct JoyAxis
+{
+	unsigned int joystickId;
+	sf::Joystick::Axis axis;
+	float position;
+	explicit JoyAxis(const sf::Event::JoystickMoveEvent& ev):
+	joystickId(ev.joystickId),
+	axis(ev.axis),
+	position(ev.position)
+	{}
+};
+
+
+class InputManager : public hb::EventManager<MouseButtonWindow, MouseButtonWorld, KeyPressed, KeyReleased, JoyButtonPressed, JoyButtonReleased, JoyAxis>
 {
 public:
 	static InputManager* instance();

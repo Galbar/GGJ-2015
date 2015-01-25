@@ -45,7 +45,34 @@ player_number(player_number)
 
 	});
 
-	
+	listen_joy_pressed = InputManager::instance()->listen([this](const JoyButtonPressed& e)
+	{
+		if (controller && e.joystickId == controllerId && alive)
+		{
+
+		}
+	});
+
+	listen_joy_released = InputManager::instance()->listen([this](const JoyButtonReleased& e)
+	{
+		if (controller && e.joystickId == controllerId && alive)
+		{
+			
+		}
+	});
+
+	listen_joy_axis = InputManager::instance()->listen([this](const JoyAxis& e)
+	{
+		if (controller && e.joystickId == controllerId && alive)
+		{
+			if (e.axis == sf::Joystick::Axis::X)
+			{
+				if (e.position > 0.0) xDir = 1;
+				else if (e.position < 0.0) xDir = -1;
+				else xDir = 0;
+			}
+		}
+	});
 }
 
 

@@ -92,6 +92,11 @@ int main(int argc, char const *argv[])
 				JoyButtonReleased jbr(event.joystickButton);
 				InputManager::instance()->message(jbr);
 			}
+			else if (event.type == sf::Event::JoystickMoved)
+			{
+				JoyAxis ja(event.joystickMove);
+				InputManager::instance()->message(ja);
+			}
 			else if (event.type == sf::Event::Resized)
 			{
 				auto view = window_manager1.getWindow()->getView();
