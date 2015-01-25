@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "../HUD.h"
 using namespace hb;
 
 int GameObject::s_game_object_identifier = 0;
@@ -40,15 +41,32 @@ void GameObject::updateAll()
 {
 	for (std::unordered_map<int, GameObject*>::iterator it = s_game_objects_by_id.begin(); it != s_game_objects_by_id.end(); it++)
 	{
-		it->second->preUpdate();
+		if (it->second->m_name != "HUD") it->second->preUpdate();
 	}
 	for (std::unordered_map<int, GameObject*>::iterator it = s_game_objects_by_id.begin(); it != s_game_objects_by_id.end(); it++)
 	{
-		it->second->update();
+		if (it->second->m_name != "HUD") it->second->update();
 	}
 	for (std::unordered_map<int, GameObject*>::iterator it = s_game_objects_by_id.begin(); it != s_game_objects_by_id.end(); it++)
 	{
-		it->second->postUpdate();
+		if (it->second->m_name != "HUD") it->second->postUpdate();
+	}
+}
+
+
+void GameObject::updateHUD()
+{
+	for (std::unordered_map<int, GameObject*>::iterator it = s_game_objects_by_id.begin(); it != s_game_objects_by_id.end(); it++)
+	{
+		if (it->second->m_name == "HUD") it->second->preUpdate();
+	}
+	for (std::unordered_map<int, GameObject*>::iterator it = s_game_objects_by_id.begin(); it != s_game_objects_by_id.end(); it++)
+	{
+		if (it->second->m_name == "HUD") it->second->update();
+	}
+	for (std::unordered_map<int, GameObject*>::iterator it = s_game_objects_by_id.begin(); it != s_game_objects_by_id.end(); it++)
+	{
+		if (it->second->m_name == "HUD") it->second->postUpdate();
 	}
 }
 

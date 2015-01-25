@@ -36,6 +36,7 @@ namespace hb
 		static const std::vector<GameObject*>& getGameObjectsByName(const std::string& name);
 		static void destroyAll();
 		static void updateAll();
+		static void updateHUD();
 
 		GameObject();
 		GameObject(const Vector3d& init_pos);

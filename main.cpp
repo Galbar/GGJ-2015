@@ -107,11 +107,13 @@ int main(int argc, char const *argv[])
 
 		hb::PhysicsWorld::instance()->update();
 
+		scene.update();
+
 		auto view = window_manager1.getWindow()->getView();
 		view.setCenter(sf::Vector2f(player->getPosition().x, player->getPosition().y));
 		window_manager1.getWindow()->setView(view);
 
-		scene.update();
+		GameObject::updateHUD();
 
 		window_manager1.draw();
 

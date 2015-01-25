@@ -2,7 +2,9 @@
 
 HUD::HUD():
 GameObject()
-{}
+{
+	setName("HUD");
+}
 
 Vector3d HUD::windowToWorldCoord(Vector2d p, RenderWindowManager* render)
 {
