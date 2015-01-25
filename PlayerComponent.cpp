@@ -11,6 +11,7 @@ player_number(player_number)
 	yDir = 0;
 	jumping = false;
 	clickedJump = false;
+	alive = true;
 	controller = cont;
 	controllerId = contId;
 	run_speed = 15.0;
@@ -20,7 +21,7 @@ player_number(player_number)
 	// Input events
 	listen_key_pressed = InputManager::instance()->listen([this](const KeyPressed& e)
 	{
-		if (!controller)
+		if (!controller and alive)
 		{
 			if (e.code == sf::Keyboard::Key::D) xDir = 1, last_key = e.code;
 			else if (e.code == sf::Keyboard::Key::A) xDir = -1, last_key = e.code;
@@ -32,7 +33,7 @@ player_number(player_number)
 
 	listen_key_released = InputManager::instance()->listen([this](const KeyReleased& e)
 	{
-		if (!controller)
+		if (!controller and alive)
 		{
 			if (e.code == sf::Keyboard::Key::D || e.code == sf::Keyboard::Key::A)
 			{
@@ -59,12 +60,27 @@ PlayerComponent::~PlayerComponent()
 
 void PlayerComponent::update()
 {
+	if (not alive) return;
 	stamina += 12.0*Time::deltaTime.asSeconds();
 	if (stamina > 100.0) stamina = 100.0;
-
 	std::vector<CollisionComponent*> collider = getGameObject()->getComponents<CollisionComponent>();
 
 	b2Body* body = collider[0]->getBody();
+	auto q = collider[0]->getCollisionQueue();
+	while (not q.empty())
+	{
+		CollisionComponent* cc = q.front();
+		q.pop();
+		GameObject* go = cc->getGameObject();
+		if (static_cast<LavaField*>(go))
+		{
+			alive = false;
+			auto sp = getGameObject()->getComponents<SpriteComponent>();
+			for (auto s : sp)
+				s->setVisible(false);
+			hb::PhysicsWorld::instance()->getWorld()->DestroyBody(body);
+		}
+	}
 
 	body->SetLinearVelocity(b2Vec2(run_speed*xDir, body->GetLinearVelocity().y));
 	if (jumping)

@@ -4,6 +4,7 @@
 #include "Hummingbird-Box2D.h"
 #include "Hummingbird-SFML.h"
 #include "InputManager.h"
+#include "LavaField.h"
 #include <vector>
 #include <iostream>
 

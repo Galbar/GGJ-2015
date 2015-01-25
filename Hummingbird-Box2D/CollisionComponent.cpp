@@ -21,7 +21,7 @@ void CollisionComponent::setBody(b2Body* b)
 }
 
 
-std::queue<CollisionComponent*> CollisionComponent::getCollisionQueue()
+std::queue<CollisionComponent*>& CollisionComponent::getCollisionQueue()
 {
 	return cqueue;
 }
