@@ -14,7 +14,7 @@ player_number(player_number)
 	alive = true;
 	controller = cont;
 	controllerId = contId;
-	run_speed = 15.0;
+	run_speed = 55.0;
 	jump_speed = -22.0;
 	stamina = 100.0;
 
@@ -49,7 +49,7 @@ player_number(player_number)
 	{
 		if (controller && (int)e.joystickId == controllerId && alive)
 		{
-			if (e.button == 0 && !jumping && !clickedJump && stamina >= 30.0)
+			if (e.button == 0 && !jumping && !clickedJump && stamina >= 20.0)
 				yDir = 1, jumping = true, clickedJump = true;
 		}
 	});
@@ -113,7 +113,7 @@ void PlayerComponent::update()
 	body->SetLinearVelocity(b2Vec2(run_speed*xDir, body->GetLinearVelocity().y));
 	if (jumping)
 	{
-		stamina -= 30;
+		stamina -= 20;
 		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, jump_speed));
 		jumping = false;
 	}

@@ -1,5 +1,7 @@
 #include "GameObject.h"
 #include "../HUD.h"
+#include <iostream>
+
 using namespace hb;
 
 int GameObject::s_game_object_identifier = 0;
@@ -92,6 +94,7 @@ GameObject::~GameObject()
 {
 	for (Component* component : m_components)
 		delete component;
+	std::cout << "hai_hai: " << m_components.size() << std::endl;
 
 	s_game_objects_by_id.erase(m_identifier);
 

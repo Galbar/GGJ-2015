@@ -11,7 +11,7 @@ namespace hb
 	{
 	public:
 		AnimatedSpriteComponent(RenderWindowManager* render_manager);
-		virtual ~AnimatedSpriteComponent() override;
+		virtual ~AnimatedSpriteComponent();
 		virtual void setTexture(const std::string& path, const sf::IntRect& area = sf::IntRect()) override;
 		virtual void update() override;
 		void setFrameTime(const Time& frame_time);

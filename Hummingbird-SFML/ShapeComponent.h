@@ -10,7 +10,7 @@ namespace hb
 	{
 	public:
 		ShapeComponent(sf::Shape* s, RenderWindowManager* r);
-		~ShapeComponent();
+		virtual ~ShapeComponent();
 
 		void postUpdate() override;
 

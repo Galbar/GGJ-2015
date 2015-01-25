@@ -6,7 +6,6 @@
 #include "Hummingbird-Base.h"
 #include "Hummingbird-SFML.h"
 #include "Hummingbird-Box2D.h"
-#include "LavaField.h"
 
 class Scene
 {

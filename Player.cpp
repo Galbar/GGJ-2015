@@ -38,3 +38,8 @@ player_number(player_number)
 	CollisionComponent* cc = new CollisionComponent(body);
 	addComponent(cc);
 }
+
+Player::~Player()
+{
+	
+}

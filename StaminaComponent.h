@@ -9,6 +9,7 @@ class StaminaComponent : public ShapeComponent
 {
 public:
 	StaminaComponent(sf::Shape* s, RenderWindowManager* r, PlayerComponent* pc);
+	virtual ~StaminaComponent();
 
 	void update() override;
 

@@ -1,4 +1,5 @@
 #include "CollisionComponent.h"
+#include <iostream>
 
 using namespace hb;
 
@@ -11,7 +12,9 @@ DataComponent<b2Body*>(b)
 
 CollisionComponent::~CollisionComponent()
 {
+	std::cerr << "hai_lol" << std::endl;
 	PhysicsWorld::instance()->getWorld()->DestroyBody(getData());
+	std::cerr << "hai_lol" << std::endl;
 }
 
 

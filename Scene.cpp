@@ -40,7 +40,7 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 	hb::GameObject* tilemap_obj = new hb::GameObject();
 	tilemap_obj->setPosition(hb::Vector3d(0.5, 0, -1000));
 	hb::GameObject* lava_fields = new hb::GameObject();
-	lava_fields->setName("Lava");
+	//lava_fields->setName("Lava");
 	std::queue<b2Body*> curr_b2Body_queue;
 
 	bool in_collider = false;
@@ -333,7 +333,6 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 
 void Scene::update()
 {
-	hb::GameObject::updateAll();
 	auto players = hb::GameObject::getGameObjectsByName("player");
 	double max;
 	for (int i = 0; i < players.size(); ++i)
@@ -344,7 +343,7 @@ void Scene::update()
 			if (max < players[i]->getPosition().x)
 				max = players[i]->getPosition().x;
 	}
-	if (max > m_i * 32.0 - 50.0 *32.0 and m_b2Fragments.size() < 4)
+	if (max > m_i * 32.0 - 50.0 *32.0)
 	{
 		std::cout << "Cargando nuevo fragmento" << std::endl;
 		std::cout << m_b2Fragments.size() << std::endl;
@@ -354,7 +353,7 @@ void Scene::update()
 	{
 		std::cout << "Eliminando bdBodies viejos" << std::endl;
 		std::cout << m_b2Fragments.size() << std::endl;
-		auto q = m_b2Fragments.front();
+		/*auto q = m_b2Fragments.front();
 		m_b2Fragments.pop();
 		while (not q.empty())
 		{
@@ -362,14 +361,17 @@ void Scene::update()
 			q.pop();
 			hb::PhysicsWorld::instance()->getWorld()->DestroyBody(b);
 		}
-		
 		hb::GameObject* o = m_tilemap_objs.front();
 		m_tilemap_objs.pop();
+		std::cout << "tamaaaaaaaaaanyo " << o->getComponents<hb::GameObject::Component>().size() << std::endl;
 		delete o;
+		if (m_lava_fields.empty()) return;
 		hb::GameObject* l = m_lava_fields.front();
 		m_lava_fields.pop();
-		delete l;
+		std::cout << "tamaaaaaaaaaanyo " << l->getComponents<hb::CollisionComponent>().size() << std::endl;
+		delete l;*/
 	}
+	hb::GameObject::updateAll();
 }
 
 
@@ -382,6 +384,6 @@ std::string Scene::getLevelPath()
 	v[3] = "lvl-part3.png";
 	v[4] = "lvl-part4.png";
 
-	return v[1];
-	//return v[rand() % 5];
+	//return v[1];
+	return v[rand() % 5];
 }

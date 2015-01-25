@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include "Transform.h"
+#include <iostream>
 
 namespace hb
 {
@@ -19,7 +20,7 @@ namespace hb
 				m_game_object = nullptr;
 				m_relative = true;
 			}
-			virtual ~Component(){}
+			inline virtual ~Component(){std::cout << "buffff" << std::endl;}
 			virtual void preUpdate(){}
 			virtual void update(){}
 			virtual void postUpdate(){}
@@ -40,7 +41,7 @@ namespace hb
 
 		GameObject();
 		GameObject(const Vector3d& init_pos);
-		~GameObject();
+		virtual ~GameObject();
 		int getIdentifier() const;
 		const std::string& getName() const;
 		void setName(const std::string& name);

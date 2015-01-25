@@ -13,7 +13,7 @@ namespace hb
 	{
 	public:
 		CollisionComponent(b2Body* b);
-		virtual ~CollisionComponent() override;
+		virtual ~CollisionComponent();
 		
 		void setBody(b2Body* b);
 		b2Body* getBody();

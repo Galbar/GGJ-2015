@@ -1,7 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "InputManager.h"
-#include "Knight.h"
 #include "Hummingbird-Base.h"
 #include "Hummingbird-SFML.h"
 #include "Scene.h"
@@ -142,10 +141,14 @@ int main(int argc, char const *argv[])
 		window_manager1.getWindow()->setView(view);
 
 		GameObject::updateHUD();
-
+		std::cout << "lastchance" << std::endl;
 		window_manager1.draw();
+		std::cout << "lastchance" << std::endl;
 
 	}
+		std::cout << "lastchance" << std::endl;
+
 	hb::GameObject::destroyAll();
+		std::cout << "lastchance" << std::endl;
 	return 0;
 }

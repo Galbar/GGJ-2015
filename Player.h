@@ -6,6 +6,7 @@ class Player : public GameObject
 {
 public:
 	Player(Vector3d init_pos, int player_number, bool controller, int controllerId);
+	~Player();
 
 	int player_number;
 	PlayerComponent* player_controller;

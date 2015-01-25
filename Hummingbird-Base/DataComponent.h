@@ -11,7 +11,7 @@ namespace hb
 		DataComponent():
 		Component()
 		{}
-		virtual ~DataComponent() override
+		virtual ~DataComponent()
 		{}
 		DataComponent(const T& data):
 		Component()

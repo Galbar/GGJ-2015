@@ -4,7 +4,6 @@
 #include "Hummingbird-Box2D.h"
 #include "Hummingbird-SFML.h"
 #include "InputManager.h"
-#include "LavaField.h"
 #include <vector>
 #include <iostream>
 
@@ -14,7 +13,7 @@ class PlayerComponent : public GameObject::Component
 {
 public:
 	PlayerComponent(int player_number, bool controller, int controllerId);
-	~PlayerComponent();
+	virtual ~PlayerComponent();
 
 	void update() override;
 	int getXDir() const;

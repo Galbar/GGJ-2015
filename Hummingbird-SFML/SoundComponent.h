@@ -12,7 +12,7 @@ namespace hb
 	{
 	public:
 		SoundComponent();
-		virtual ~SoundComponent() override;
+		virtual ~SoundComponent();
 		void setSound(const std::string& sound_path);
 		sf::Sound& getSound();
 		const sf::Sound& getSound() const;

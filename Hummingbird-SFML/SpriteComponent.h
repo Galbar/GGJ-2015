@@ -12,7 +12,7 @@ namespace hb
 	{
 	public:
 		SpriteComponent(RenderWindowManager* render_manager);
-		virtual ~SpriteComponent() override;
+		virtual ~SpriteComponent();
 		void setRenderWindowManager(RenderWindowManager* render_manager);
 		RenderWindowManager* getRenderWindowManager();
 		const RenderWindowManager* getRenderWindowManager() const;
