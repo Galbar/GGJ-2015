@@ -49,7 +49,8 @@ player_number(player_number)
 	{
 		if (controller && e.joystickId == controllerId && alive)
 		{
-
+			if (e.button == 0 && !jumping && !clickedJump && stamina >= 30.0)
+				yDir = 1, jumping = true, clickedJump = true;
 		}
 	});
 
@@ -57,7 +58,7 @@ player_number(player_number)
 	{
 		if (controller && e.joystickId == controllerId && alive)
 		{
-			
+			if (e.button == 0) jumping = false, clickedJump = false;
 		}
 	});
 
@@ -67,8 +68,8 @@ player_number(player_number)
 		{
 			if (e.axis == sf::Joystick::Axis::X)
 			{
-				if (e.position > 0.0) xDir = 1;
-				else if (e.position < 0.0) xDir = -1;
+				if (e.position > 30) xDir = 1;
+				else if (e.position < -30) xDir = -1;
 				else xDir = 0;
 			}
 		}

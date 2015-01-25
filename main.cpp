@@ -32,7 +32,7 @@ int main(int argc, char const *argv[])
 
 	PhysicsWorld::instance()->setGravity(Vector2d(0.0f, 15.0f));
 
-	Player* player = new Player(hb::Vector3d(9, 17, 0), 1, false, 0);
+	Player* player = new Player(hb::Vector3d(9, 17, 0), 1, true, 1);
 	HUDplayer* hud_player1 = new HUDplayer(player, &window_manager1);
 	hb::AnimatedSpriteComponent* sc = new hb::AnimatedSpriteComponent(&window_manager1);
 	sc->setTexture("Asd");
