@@ -8,6 +8,9 @@ public:
 	Player(Vector3d init_pos, int player_number, bool controller, int controllerId);
 	~Player();
 
+	bool isAlive();
+	void die();
+
 	int player_number;
 	PlayerComponent* player_controller;
 

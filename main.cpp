@@ -33,9 +33,9 @@ int main(int argc, char const *argv[])
 	PhysicsWorld::instance()->setGravity(Vector2d(0.0f, 15.0f));
 
 	Player* player1 = new Player(hb::Vector3d(9, 17, 0), 1, false, 1);
-	Player* player2 = new Player(hb::Vector3d(9, 15, 0), 2, true, 0);
-	Player* player3 = new Player(hb::Vector3d(9, 13, 0), 3, true, 1);
-	Player* player4 = new Player(hb::Vector3d(9, 11, 0), 4, true, 2);
+	Player* player2 = new Player(hb::Vector3d(10, 17, 0), 2, true, 0);
+	Player* player3 = new Player(hb::Vector3d(11, 17, 0), 3, true, 1);
+	Player* player4 = new Player(hb::Vector3d(12, 17, 0), 4, true, 2);
 	std::cout << "hai" << std::endl;
 	HUDplayer* hud_player1 = new HUDplayer(player1, &window_manager1);
 	HUDplayer* hud_player2 = new HUDplayer(player2, &window_manager1);
@@ -77,11 +77,6 @@ int main(int argc, char const *argv[])
 	sf::Clock clk;
 	Time lastTime = Time::microseconds(clk.getElapsedTime().asMicroseconds());
 	//std::cout << "haisus" << std::endl;
-	InputManager::instance()->listen([](const KeyPressed& e)
-	{
-		if (e.code == sf::Keyboard::Key::O)
-			std::cout << "############ ATENCION!! ############" << std::endl;
-	});
 	while (window_manager1.getWindow()->isOpen())
 	{
 		Time::deltaTime = Time::microseconds(clk.getElapsedTime().asMicroseconds())-lastTime;
@@ -135,20 +130,47 @@ int main(int argc, char const *argv[])
 		hb::PhysicsWorld::instance()->update();
 
 		scene.update();
+		int max = 0;
+		if (player1->isAlive()) max = player1->getPosition().x;
+		if (max < player2->getPosition().x && player2->isAlive()) max = player2->getPosition().x;
+		if (max < player3->getPosition().x && player3->isAlive()) max = player3->getPosition().x;
+		if (max < player4->getPosition().x && player4->isAlive()) max = player4->getPosition().x;
+
+		int min = 0;
+		if (player1->isAlive()) min = player1->getPosition().x;
+		if (min > player2->getPosition().x && player2->isAlive()) min = player2->getPosition().x;
+		if (min > player3->getPosition().x && player3->isAlive()) min = player3->getPosition().x;
+		if (min > player4->getPosition().x && player4->isAlive()) min = player4->getPosition().x;
+
+		int Ymax= 0;
+		if (player1->isAlive()) Ymax = player1->getPosition().y;
+		if (Ymax < player2->getPosition().y && player2->isAlive()) Ymax = player2->getPosition().y;
+		if (Ymax < player3->getPosition().y && player3->isAlive()) Ymax = player3->getPosition().y;
+		if (Ymax < player4->getPosition().y && player4->isAlive()) Ymax = player4->getPosition().y;
+
+		int Ymin=0;
+		if (player1->isAlive()) Ymin = player1->getPosition().y;
+		if (Ymin > player2->getPosition().y && player2->isAlive()) Ymin = player2->getPosition().y;
+		if (Ymin > player3->getPosition().y && player3->isAlive()) Ymin = player3->getPosition().y;
+		if (Ymin > player4->getPosition().y && player4->isAlive()) Ymin = player4->getPosition().y;
+
+		if (max-min >= 10)
+		{
+			if (min == player1->getPosition().x) player1->die();
+			if (min == player2->getPosition().x) player2->die();
+			if (min == player3->getPosition().x) player3->die();
+			if (min == player4->getPosition().x) player4->die();
+		}
 
 		auto view = window_manager1.getWindow()->getView();
-		view.setCenter(sf::Vector2f(player1->getPosition().x, player1->getPosition().y));
+		view.setCenter(sf::Vector2f((max*1.4+min)/2, (Ymax*1.4+Ymin)/2));
 		window_manager1.getWindow()->setView(view);
 
 		GameObject::updateHUD();
-		std::cout << "lastchance" << std::endl;
 		window_manager1.draw();
-		std::cout << "lastchance" << std::endl;
 
 	}
-		std::cout << "lastchance" << std::endl;
 
 	hb::GameObject::destroyAll();
-		std::cout << "lastchance" << std::endl;
 	return 0;
 }

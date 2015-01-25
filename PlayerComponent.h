@@ -21,6 +21,9 @@ public:
 	double getStamina();
 	const double getStamina() const;
 
+	bool isAlive();
+	void die();
+
 	int player_number;
 
 private:

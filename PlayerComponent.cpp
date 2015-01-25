@@ -86,6 +86,18 @@ PlayerComponent::~PlayerComponent()
 }
 
 
+bool PlayerComponent::isAlive()
+{
+	return alive;
+}
+
+
+void PlayerComponent::die()
+{
+	alive = true;
+}
+
+
 void PlayerComponent::update()
 {
 	if (not alive) return;

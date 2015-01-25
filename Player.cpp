@@ -41,5 +41,17 @@ player_number(player_number)
 
 Player::~Player()
 {
-	
+
+}
+
+
+bool Player::isAlive()
+{
+	return player_controller->isAlive();
+}
+
+
+void Player::die()
+{
+	player_controller->die();
 }
