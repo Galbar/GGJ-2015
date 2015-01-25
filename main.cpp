@@ -37,6 +37,7 @@ int main(int argc, char const *argv[])
 	Player* player2 = new Player(hb::Vector3d(9, 15, 0), 2, true, 0);
 	Player* player3 = new Player(hb::Vector3d(9, 13, 0), 3, true, 1);
 	Player* player4 = new Player(hb::Vector3d(9, 11, 0), 4, true, 2);
+	std::cout << "hai" << std::endl;
 	HUDplayer* hud_player1 = new HUDplayer(player1, &window_manager1);
 	HUDplayer* hud_player2 = new HUDplayer(player2, &window_manager1);
 	HUDplayer* hud_player3 = new HUDplayer(player3, &window_manager1);

@@ -57,6 +57,7 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 			t = new hb::SpriteComponent(window_manager);
 			//t->setTexture("tilemap.png", sf::IntRect(138, 308, 32, 32));
 			t->setTexture("tilemap.png", sf::IntRect(274, 410, 32, 32));
+
 			if (tilemap.getPixel(i, j) != sf::Color::White) // if background
 			{
 				std::cout << "\tEs fondo" << std::endl;
@@ -361,10 +362,11 @@ void Scene::update()
 			q.pop();
 			hb::PhysicsWorld::instance()->getWorld()->DestroyBody(b);
 		}
+		
 		hb::GameObject* o = m_tilemap_objs.front();
 		m_tilemap_objs.pop();
 		delete o;
-		LavaField* l = m_lava_fields.front();
+		hb::GameObject* l = m_lava_fields.front();
 		m_lava_fields.pop();
 		delete l;
 	}
