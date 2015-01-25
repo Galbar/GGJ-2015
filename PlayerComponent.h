@@ -3,6 +3,7 @@
 #include "Hummingbird-Base.h"
 #include "Hummingbird-Box2D.h"
 #include "InputManager.h"
+#include "LavaField.h"
 #include <vector>
 #include <iostream>
 

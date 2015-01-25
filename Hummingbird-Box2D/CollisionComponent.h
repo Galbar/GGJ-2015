@@ -19,7 +19,7 @@ namespace hb
 		b2Body* getBody();
 		const b2Body* getBody() const;
 
-		std::queue<CollisionComponent*> getCollisionQueue();
+		std::queue<CollisionComponent*>& getCollisionQueue();
 		const Vector3d getPosition();
 
 		void addCollision(CollisionComponent* b);

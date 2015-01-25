@@ -3,6 +3,7 @@
 #include "Hummingbird-Base.h"
 #include "Hummingbird-SFML.h"
 #include "Hummingbird-Box2D.h"
+#include "LavaField.h"
 
 class Scene
 {
@@ -19,5 +20,6 @@ public:
 protected:
 	static std::string getLevelPath(levels lvl);
 	hb::GameObject* m_tilemap_obj;
+	LavaField* m_lava_fields;
 };
 #endif
