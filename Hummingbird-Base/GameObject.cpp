@@ -94,22 +94,23 @@ GameObject::~GameObject()
 {
 	for (Component* component : m_components)
 		delete component;
-	std::cout << "hai_hai: " << m_components.size() << std::endl;
+	m_components.clear();
 
 	s_game_objects_by_id.erase(m_identifier);
 
 	auto s = s_game_objects_by_name.find(m_name);
 	if (s != s_game_objects_by_name.end())
 	{
-		for (std::vector<GameObject*>::iterator i = s->second.begin(); i != s->second.end(); ++i)
+		bool done = false;
+		for (std::vector<GameObject*>::iterator i = s->second.begin(); i != s->second.end() and not done; ++i)
 		{
-			if (*i == this)
+			if ((*i)->getIdentifier() == getIdentifier())
 			{
+				done = true;
 				s->second.erase(i);
-				i = s->second.end();
 			}
 		}
-		if (s->second.size() == 0)
+		if (done and s->second.size() == 0)
 		{
 			s_game_objects_by_name.erase(m_name);
 		}

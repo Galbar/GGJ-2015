@@ -84,6 +84,7 @@ int main(int argc, char const *argv[])
 	});
 	while (window_manager1.getWindow()->isOpen())
 	{
+		std::cout << "hai_hai16" << std::endl;
 		Time::deltaTime = Time::microseconds(clk.getElapsedTime().asMicroseconds())-lastTime;
 		lastTime = Time::microseconds(clk.getElapsedTime().asMicroseconds());
 
@@ -135,20 +136,17 @@ int main(int argc, char const *argv[])
 		hb::PhysicsWorld::instance()->update();
 
 		scene.update();
+		std::cout << "hai_hai32" << std::endl;
 
 		auto view = window_manager1.getWindow()->getView();
 		view.setCenter(sf::Vector2f(player1->getPosition().x, player1->getPosition().y));
 		window_manager1.getWindow()->setView(view);
 
 		GameObject::updateHUD();
-		std::cout << "lastchance" << std::endl;
 		window_manager1.draw();
-		std::cout << "lastchance" << std::endl;
-
+		std::cout << "hai_hai64" << std::endl;
 	}
-		std::cout << "lastchance" << std::endl;
 
 	hb::GameObject::destroyAll();
-		std::cout << "lastchance" << std::endl;
 	return 0;
 }

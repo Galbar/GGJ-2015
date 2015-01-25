@@ -38,9 +38,10 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 	tilemap.loadFromFile(path);
 	sf::Vector2u size = tilemap.getSize();
 	hb::GameObject* tilemap_obj = new hb::GameObject();
+	tilemap_obj->setName("Tilemap");
 	tilemap_obj->setPosition(hb::Vector3d(0.5, 0, -1000));
 	hb::GameObject* lava_fields = new hb::GameObject();
-	//lava_fields->setName("Lava");
+	lava_fields->setName("Lava");
 	std::queue<b2Body*> curr_b2Body_queue;
 
 	bool in_collider = false;
@@ -193,7 +194,7 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 		hb::Vector2d lava_column_begin;
 		for (unsigned int j = 0; j < size.y; ++j)
 		{
-			if (in_lava_column and tilemap.getPixel(i, j) != sf::Color(127, 0, 0))
+			if (in_lava_column and (tilemap.getPixel(i, j) != sf::Color(127, 0, 0) or j == size.y -1))
 			{
 				in_lava_column = false;
 				b2BodyDef myBodyDef;
@@ -343,24 +344,14 @@ void Scene::update()
 			if (max < players[i]->getPosition().x)
 				max = players[i]->getPosition().x;
 	}
-	if (max > m_i * 32.0 - 50.0 *32.0)
+	if (max > m_i * 32.0 - 50.0 *32.0 and m_tilemap_objs.size() < 4)
 	{
 		std::cout << "Cargando nuevo fragmento" << std::endl;
 		std::cout << m_b2Fragments.size() << std::endl;
 		loadFragment(getLevelPath(), m_window_manager);
 	}
-	if (m_b2Fragments.size() > 3)
+	if (m_tilemap_objs.size() > 3)
 	{
-		std::cout << "Eliminando bdBodies viejos" << std::endl;
-		std::cout << m_b2Fragments.size() << std::endl;
-		/*auto q = m_b2Fragments.front();
-		m_b2Fragments.pop();
-		while (not q.empty())
-		{
-			b2Body* b = q.front();
-			q.pop();
-			hb::PhysicsWorld::instance()->getWorld()->DestroyBody(b);
-		}
 		hb::GameObject* o = m_tilemap_objs.front();
 		m_tilemap_objs.pop();
 		std::cout << "tamaaaaaaaaaanyo " << o->getComponents<hb::GameObject::Component>().size() << std::endl;
@@ -369,7 +360,7 @@ void Scene::update()
 		hb::GameObject* l = m_lava_fields.front();
 		m_lava_fields.pop();
 		std::cout << "tamaaaaaaaaaanyo " << l->getComponents<hb::CollisionComponent>().size() << std::endl;
-		delete l;*/
+		delete l;
 	}
 	hb::GameObject::updateAll();
 }

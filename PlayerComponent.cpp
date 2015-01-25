@@ -100,6 +100,7 @@ void PlayerComponent::update()
 		CollisionComponent* cc = q.front();
 		q.pop();
 		GameObject* go = cc->getGameObject();
+		std::cout << go->getName() << std::endl;
 		if (go->getName() == "Lava")
 		{
 			alive = false;

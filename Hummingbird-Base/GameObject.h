@@ -20,7 +20,7 @@ namespace hb
 				m_game_object = nullptr;
 				m_relative = true;
 			}
-			inline virtual ~Component(){std::cout << "buffff" << std::endl;}
+			inline virtual ~Component(){}
 			virtual void preUpdate(){}
 			virtual void update(){}
 			virtual void postUpdate(){}
