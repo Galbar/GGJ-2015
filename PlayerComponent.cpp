@@ -100,7 +100,7 @@ void PlayerComponent::update()
 		CollisionComponent* cc = q.front();
 		q.pop();
 		GameObject* go = cc->getGameObject();
-		if (static_cast<LavaField*>(go))
+		if (go->getName() == "Lava")
 		{
 			alive = false;
 			auto sp = getGameObject()->getComponents<SpriteComponent>();
