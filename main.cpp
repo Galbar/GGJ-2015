@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 #include <SFML/Graphics.hpp>
 #include "InputManager.h"
 #include "Hummingbird-Base.h"
@@ -27,6 +28,11 @@ private:
 
 int main(int argc, char const *argv[])
 {
+	int num_players = 4;
+	if (argc == 2)
+	{
+		num_players = atoi(argv[1]);
+	}
 	srand (time(NULL));
 	hb::RenderWindowManager window_manager1(new sf::RenderWindow(sf::VideoMode(1280, 720), "SFML works!"));
 
@@ -40,7 +46,7 @@ int main(int argc, char const *argv[])
 	HUDplayer* hud_player1 = new HUDplayer(player1, &window_manager1);
 	HUDplayer* hud_player2 = new HUDplayer(player2, &window_manager1);
 	HUDplayer* hud_player3 = new HUDplayer(player3, &window_manager1);
-	HUDplayer* hud_player4 = new HUDplayer(player4, &window_manager1);
+	//HUDplayer* hud_player4 = new HUDplayer(player4, &window_manager1);
 	hb::AnimatedSpriteComponent* sc1 = new hb::AnimatedSpriteComponent(&window_manager1);
 	sc1->setTexture("Asd");
 	sc1->setFrameSize(hb::Vector2d(32, 32));
@@ -53,14 +59,14 @@ int main(int argc, char const *argv[])
 	sc3->setTexture("Asd");
 	sc3->setFrameSize(hb::Vector2d(32, 32));
 	sc3->setFrameInterval(0, 2);
-	hb::AnimatedSpriteComponent* sc4 = new hb::AnimatedSpriteComponent(&window_manager1);
-	sc4->setTexture("Asd");
-	sc4->setFrameSize(hb::Vector2d(32, 32));
-	sc4->setFrameInterval(0, 2);
+	//hb::AnimatedSpriteComponent* sc4 = new hb::AnimatedSpriteComponent(&window_manager1);
+	//sc4->setTexture("Asd");
+	//sc4->setFrameSize(hb::Vector2d(32, 32));
+	//sc4->setFrameInterval(0, 2);
 	player1->addComponent(sc1);
 	player2->addComponent(sc2);
 	player3->addComponent(sc3);
-	player4->addComponent(sc4);
+	//player4->addComponent(sc4);
 	hb::GameObject* go2 = new GameObject();
 
 	go2->addComponent(new MoveToClick());
@@ -179,7 +185,7 @@ int main(int argc, char const *argv[])
 
 
 		auto view = window_manager1.getWindow()->getView();
-		view.setCenter(sf::Vector2f((Xmax*1.4+Xmin)/2.4, (Ymax*1.4+Ymin)/2.4));
+		view.setCenter(sf::Vector2f((Xmax*1.4+Xmin)/2.4, (Ymax+Ymin)/2.0));
 		window_manager1.getWindow()->setView(view);
 
 		GameObject::updateHUD();

@@ -20,10 +20,10 @@ player_number(player_number)
 	body->SetLinearDamping(1.0f);
 	body->SetGravityScale(2.5);
 	b2Vec2 vertices[4];
-	vertices[0].Set(-0.5,  0.5);
-	vertices[1].Set(-0.5, -0.5);
-	vertices[2].Set( 0.5, -0.5);
-	vertices[3].Set( 0.5,  0.5);
+	vertices[0].Set(-0.45,  0.45);
+	vertices[1].Set(-0.45, -0.45);
+	vertices[2].Set( 0.45, -0.45);
+	vertices[3].Set( 0.45,  0.45);
 
 	b2PolygonShape box;
 	box.Set(vertices, 4);
