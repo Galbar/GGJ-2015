@@ -82,10 +82,9 @@ int main(int argc, char const *argv[])
 	Scene scene(&window_manager1, Scene::LVL1);
 	sf::Clock clk;
 	Time lastTime = Time::microseconds(clk.getElapsedTime().asMicroseconds());
-	//std::cout << "haisus" << std::endl;
+	double camera_previous_x = -1;
 	while (window_manager1.getWindow()->isOpen())
 	{
-		std::cout << "hai_hai16" << std::endl;
 		Time::deltaTime = Time::microseconds(clk.getElapsedTime().asMicroseconds())-lastTime;
 		lastTime = Time::microseconds(clk.getElapsedTime().asMicroseconds());
 
@@ -161,36 +160,47 @@ int main(int argc, char const *argv[])
 		if (Ymin > player4->getPosition().y && player4->isAlive()) Ymin = player4->getPosition().y;
 
 		scene.update();
-		std::cout << "hai_hai32" << std::endl;
 
 		std::cout << Xmin << " " << Xmax << std::endl;
 
-		if (Xmax-Xmin >= 1000)
-		{
-			if (Xmin+10 >= player1->getPosition().x) player1->die();
-			if (Xmin+10 >= player2->getPosition().x) player2->die();
-			if (Xmin+10 >= player3->getPosition().x) player3->die();
-			if (Xmin+10 >= player4->getPosition().x) player4->die();
-		}
+		if (camera_previous_x - window_manager1.getWindow()->getSize().x/2 >= player1->getPosition().x) player1->die();
+		if (camera_previous_x - window_manager1.getWindow()->getSize().x/2 >= player2->getPosition().x) player2->die();
+		if (camera_previous_x - window_manager1.getWindow()->getSize().x/2 >= player3->getPosition().x) player3->die();
+		if (camera_previous_x - window_manager1.getWindow()->getSize().x/2 >= player4->getPosition().x) player4->die();
 
 		if (player1->getPosition().y > 1800) player1->die();
 		if (player2->getPosition().y > 1800) player2->die();
 		if (player3->getPosition().y > 1800) player3->die();
 		if (player4->getPosition().y > 1800) player4->die();
 
-		if (player1->getPosition().y < 120) player1->die();
-		if (player2->getPosition().y < 120) player2->die();
-		if (player3->getPosition().y < 120) player3->die();
-		if (player4->getPosition().y < 120) player4->die();
+		if (player1->getPosition().y < 0) player1->die();
+		if (player2->getPosition().y < 0) player2->die();
+		if (player3->getPosition().y < 0) player3->die();
+		if (player4->getPosition().y < 0) player4->die();
 
+		if (camera_previous_x == -1)
+		{
+			std::cout << "que paso guey" << std::endl;
+			camera_previous_x = (Xmax*1.4+Xmin)/2.4;
+		}
 
 		auto view = window_manager1.getWindow()->getView();
-		view.setCenter(sf::Vector2f((Xmax*1.4+Xmin)/2.4, (Ymax+Ymin)/2.0));
+		if (camera_previous_x > (Xmax*1.4+Xmin)/2.4)
+		{
+			std::cout << "que paso cat" << std::endl;
+			view.setCenter(sf::Vector2f(camera_previous_x, (Ymax+Ymin)/2.0));
+		}
+		else
+		{
+			std::cout << "que paso dog" << std::endl;
+			view.setCenter(sf::Vector2f((Xmax*1.4+Xmin)/2.4, (Ymax+Ymin)/2.0));
+			camera_previous_x = (Xmax*1.4+Xmin)/2.4;
+		}
 		window_manager1.getWindow()->setView(view);
+
 
 		GameObject::updateHUD();
 		window_manager1.draw();
-		std::cout << "hai_hai64" << std::endl;
 	}
 
 	hb::GameObject::destroyAll();

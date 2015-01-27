@@ -57,8 +57,9 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 			std::cout << (int)tilemap.getPixel(i, j).r << ", " << (int)tilemap.getPixel(i, j).g << ", " << (int)tilemap.getPixel(i, j).b << ")";
 			hb::SpriteComponent* t;
 			t = new hb::SpriteComponent(window_manager);
+			//t->setTexture("tilemap.png", sf::IntRect(376, 70, 32, 32));
 			//t->setTexture("tilemap.png", sf::IntRect(138, 308, 32, 32));
-			t->setTexture("tilemap.png", sf::IntRect(274, 410, 32, 32));
+			//t->setTexture("tilemap.png", sf::IntRect(274, 410, 32, 32));
 
 			if (tilemap.getPixel(i, j) != sf::Color::White) // if background
 			{
@@ -148,7 +149,11 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 			if (tilemap.getPixel(i, j) == sf::Color(255, 0, 0))
 			{
 				hb::AnimatedSpriteComponent* at = new hb::AnimatedSpriteComponent(window_manager);
-				at->setTexture("tilemap.png", sf::IntRect(512, 136, 275, 70));
+				at->setTexture("tilemap.png", sf::IntRect(512, 136, 238, 68));
+				at->setFrameSize(hb::Vector2d(32, 32));
+				at->setFrameTime(hb::Time::seconds(0.3));
+				at->setFrameMargin(hb::Vector2d(2, 2));
+				at->setPosition(hb::Vector3d(at->getPosition().x, at->getPosition().y, 1000));
 				if (j == 0 or tilemap.getPixel(i, j - 1) != sf::Color(255, 0, 0))
 				{
 					if (not in_lava_pool)
@@ -157,19 +162,11 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 						in_lava_pool = true;
 						lava_pool_begin = hb::Vector2d((m_i + i), j);
 					}
-					at->setFrameSize(hb::Vector2d(32, 32));
 					at->setFrameInterval(0, 6);
-					at->setFrameTime(hb::Time::seconds(0.3));
-					at->setFrameMargin(hb::Vector2d(2, 2));
-					at->setPosition(hb::Vector3d(at->getPosition().x, at->getPosition().y, 1000));
 				}
 				else
 				{
-					at->setFrameSize(hb::Vector2d(32, 32));
-					at->setFrameInterval(8, 14);
-					at->setFrameTime(hb::Time::seconds(0.3));
-					at->setFrameMargin(hb::Vector2d(2, 2));
-					at->setPosition(hb::Vector3d(at->getPosition().x, at->getPosition().y, 1000));
+					at->setFrameInterval(7, 13);
 				}
 				at->setPosition(hb::Vector3d(32 * (m_i + i), 32 * j , 1000));
 				tilemap_obj->addComponent(at);
@@ -215,7 +212,7 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 				myBodyDef.type = b2_staticBody;
 
 				b2PolygonShape collider_shape;
-				collider_shape.SetAsBox(0.5, ((double)j - lava_column_begin.y) / 2.0); //a 4x2 rectangle
+				collider_shape.SetAsBox(0.4, ((double)j - lava_column_begin.y) / 2.0); //a 4x2 rectangle
 				myBodyDef.position.Set(lava_column_begin.x + 0.5, ((double)j + lava_column_begin.y) / 2.0); //a bit to the right
 
 				b2Body* body = hb::PhysicsWorld::instance()->addBody(&myBodyDef);
@@ -272,7 +269,7 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 					t = at;
 				}
 			}
-			else if (tilemap.getPixel(i, j) == sf::Color::Black)	// if background
+			else if (tilemap.getPixel(i, j) != sf::Color::White)
 			{
 				if (in_collider)
 				{
@@ -322,6 +319,12 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 			}
 			if (t != nullptr)
 			{
+				if (in_collider)
+				{
+					delete t;
+					t = new hb::SpriteComponent(window_manager);
+					t->setTexture("tilemap.png", sf::IntRect(444, 2, 32, 32));
+				}
 				t->setPosition(hb::Vector3d(32 * (m_i + i), 32 * j , t->getPosition().z));
 				tilemap_obj->addComponent(t);
 			}
@@ -388,13 +391,13 @@ void Scene::update()
 
 std::string Scene::getLevelPath()
 {
-	std::vector<std::string> v(5);
+	std::vector<std::string> v(4);
 	v[0] = "lvl-part0.png";
 	v[1] = "lvl-part1.png";
-	v[2] = "lvl-part2.png";
-	v[3] = "lvl-part3.png";
-	v[4] = "lvl-part4.png";
+	//v[2] = "lvl-part2.png";
+	v[2] = "lvl-part3.png";
+	v[3] = "lvl-part4.png";
 
 	//return v[1];
-	return v[rand() % 5];
+	return v[rand() % 4];
 }
