@@ -29,7 +29,6 @@ std::vector<GameObject*> GameObject::getGameObjectsByName(const std::string& nam
 	return v;
 }
 
-
 void GameObject::destroyAll()
 {
 	std::vector<std::pair<int, GameObject*>> v(s_game_objects_by_id.begin(), s_game_objects_by_id.end());

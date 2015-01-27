@@ -100,37 +100,33 @@ void PlayerComponent::die()
 
 void PlayerComponent::update()
 {
-	if (not alive) return;
-	stamina += 15.0*Time::deltaTime.asSeconds();
-	if (stamina > 100.0) stamina = 100.0;
 	std::vector<CollisionComponent*> collider = getGameObject()->getComponents<CollisionComponent>();
 
 	b2Body* body = collider[0]->getBody();
-	auto q = collider[0]->getCollisionQueue();
-	while (not q.empty())
+	if (alive)
 	{
-		CollisionComponent* cc = q.front();
-		q.pop();
-		GameObject* go = cc->getGameObject();
-		std::cout << go->getName() << std::endl;
-		if (go->getName() == "Lava")
+		stamina += 15.0*Time::deltaTime.asSeconds();
+		if (stamina > 100.0) stamina = 100.0;
+		auto q = collider[0]->getCollisionQueue();
+		while (not q.empty())
 		{
-			alive = false;
-			auto sp = getGameObject()->getComponents<SpriteComponent>();
-			for (auto s : sp)
-				s->setVisible(false);
-			hb::PhysicsWorld::instance()->getWorld()->DestroyBody(body);
+			CollisionComponent* cc = q.front();
+			q.pop();
+			GameObject* go = cc->getGameObject();
+			if (go->getName() == "Lava")
+			{
+				die();
+			}
+		}
+	
+		body->SetLinearVelocity(b2Vec2(run_speed*xDir, body->GetLinearVelocity().y));
+		if (jumping)
+		{
+			stamina -= JUMP_STAMINA;
+			body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, jump_speed));
+			jumping = false;
 		}
 	}
-
-	body->SetLinearVelocity(b2Vec2(run_speed*xDir, body->GetLinearVelocity().y));
-	if (jumping)
-	{
-		stamina -= JUMP_STAMINA;
-		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, jump_speed));
-		jumping = false;
-	}
-
 	getGameObject()->setPosition(Vector3d(body->GetPosition().x*32, body->GetPosition().y*32, getGameObject()->getPosition().z));
 }
 

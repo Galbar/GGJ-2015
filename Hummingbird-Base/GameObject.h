@@ -35,6 +35,24 @@ namespace hb
 
 		static GameObject* getGameObjectById(int id);
 		static std::vector<GameObject*> getGameObjectsByName(const std::string& name);
+		template <typename T>
+		static std::vector<T*> getGameObjectsByName(const std::string& name)
+		{
+			std::vector<GameObject*> v;
+			std::vector<T*> ts;
+			
+			auto s = s_game_objects_by_name.find(name);
+			if (s != s_game_objects_by_name.end())
+				v = s->second;
+
+			for (GameObject* go : v)
+			{
+				T* t = dynamic_cast<T*>(go);
+				if (t != nullptr)
+					ts.push_back(t);
+			}
+			return ts;
+		}
 		static void destroyAll();
 		static void updateAll();
 		static void updateHUD();

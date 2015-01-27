@@ -18,12 +18,11 @@ public:
 	Scene(hb::RenderWindowManager* window_manager, levels lvl);
 	virtual ~Scene();
 	void loadFragment(std::string path, hb::RenderWindowManager* window_manager);
-	virtual void update();
+	virtual void update(double max);
 
 protected:
 	static std::string getLevelPath();
 	double m_i;
-	std::queue<std::queue<b2Body*>> m_b2Fragments;
 	std::queue<hb::GameObject*> m_tilemap_objs;
 	std::queue<hb::GameObject*> m_lava_fields;
 	hb::RenderWindowManager* m_window_manager;

@@ -42,11 +42,10 @@ int main(int argc, char const *argv[])
 	Player* player2 = new Player(hb::Vector3d(10, 17, 0), 2, true, 0);
 	Player* player3 = new Player(hb::Vector3d(11, 17, 0), 3, true, 1);
 	Player* player4 = new Player(hb::Vector3d(12, 17, 0), 4, true, 2);
-	std::cout << "hai" << std::endl;
-	HUDplayer* hud_player1 = new HUDplayer(player1, &window_manager1);
-	HUDplayer* hud_player2 = new HUDplayer(player2, &window_manager1);
-	HUDplayer* hud_player3 = new HUDplayer(player3, &window_manager1);
-	//HUDplayer* hud_player4 = new HUDplayer(player4, &window_manager1);
+	new HUDplayer(player1, &window_manager1);
+	new HUDplayer(player2, &window_manager1);
+	new HUDplayer(player3, &window_manager1);
+	new HUDplayer(player4, &window_manager1);
 	hb::AnimatedSpriteComponent* sc1 = new hb::AnimatedSpriteComponent(&window_manager1);
 	sc1->setTexture("Asd");
 	sc1->setFrameSize(hb::Vector2d(32, 32));
@@ -59,14 +58,14 @@ int main(int argc, char const *argv[])
 	sc3->setTexture("Asd");
 	sc3->setFrameSize(hb::Vector2d(32, 32));
 	sc3->setFrameInterval(0, 2);
-	//hb::AnimatedSpriteComponent* sc4 = new hb::AnimatedSpriteComponent(&window_manager1);
-	//sc4->setTexture("Asd");
-	//sc4->setFrameSize(hb::Vector2d(32, 32));
-	//sc4->setFrameInterval(0, 2);
+	hb::AnimatedSpriteComponent* sc4 = new hb::AnimatedSpriteComponent(&window_manager1);
+	sc4->setTexture("Asd");
+	sc4->setFrameSize(hb::Vector2d(32, 32));
+	sc4->setFrameInterval(0, 2);
 	player1->addComponent(sc1);
 	player2->addComponent(sc2);
 	player3->addComponent(sc3);
-	//player4->addComponent(sc4);
+	player4->addComponent(sc4);
 	hb::GameObject* go2 = new GameObject();
 
 	go2->addComponent(new MoveToClick());
@@ -83,6 +82,8 @@ int main(int argc, char const *argv[])
 	sf::Clock clk;
 	Time lastTime = Time::microseconds(clk.getElapsedTime().asMicroseconds());
 	double camera_previous_x = -1;
+	std::vector<Player*> players = hb::GameObject::getGameObjectsByName<Player>("player");
+	assert(players.size() != 0);
 	while (window_manager1.getWindow()->isOpen())
 	{
 		Time::deltaTime = Time::microseconds(clk.getElapsedTime().asMicroseconds())-lastTime;
@@ -135,64 +136,60 @@ int main(int argc, char const *argv[])
 
 		hb::PhysicsWorld::instance()->update();
 
+
 		int Xmax = 0;
-		if (player1->isAlive()) Xmax = player1->getPosition().x;
-		if (Xmax < player2->getPosition().x && player2->isAlive()) Xmax = player2->getPosition().x;
-		if (Xmax < player3->getPosition().x && player3->isAlive()) Xmax = player3->getPosition().x;
-		if (Xmax < player4->getPosition().x && player4->isAlive()) Xmax = player4->getPosition().x;
-
 		int Xmin = 0;
-		if (player1->isAlive()) Xmin = player1->getPosition().x;
-		if (Xmin > player2->getPosition().x && player2->isAlive()) Xmin = player2->getPosition().x;
-		if (Xmin > player3->getPosition().x && player3->isAlive()) Xmin = player3->getPosition().x;
-		if (Xmin > player4->getPosition().x && player4->isAlive()) Xmin = player4->getPosition().x;
+		int Ymax = 0;
+		int Ymin = 0;
+		bool first = true;
+		for (Player* p : players)
+		{
+			if (not p->isAlive())
+				continue;
+			if (first)
+			{
+				first = false;
+				Xmax = p->getPosition().x;
+				Xmin = p->getPosition().x;
+				Ymax = p->getPosition().y;
+				Ymin = p->getPosition().y;
+			}
+			else
+			{
+				if (Xmax < p->getPosition().x and p->isAlive())
+					Xmax = p->getPosition().x;
 
-		int Ymax= 0;
-		if (player1->isAlive()) Ymax = player1->getPosition().y;
-		if (Ymax < player2->getPosition().y && player2->isAlive()) Ymax = player2->getPosition().y;
-		if (Ymax < player3->getPosition().y && player3->isAlive()) Ymax = player3->getPosition().y;
-		if (Ymax < player4->getPosition().y && player4->isAlive()) Ymax = player4->getPosition().y;
+				if (Xmin > p->getPosition().x and p->isAlive())
+					Xmin = p->getPosition().x;
 
-		int Ymin=0;
-		if (player1->isAlive()) Ymin = player1->getPosition().y;
-		if (Ymin > player2->getPosition().y && player2->isAlive()) Ymin = player2->getPosition().y;
-		if (Ymin > player3->getPosition().y && player3->isAlive()) Ymin = player3->getPosition().y;
-		if (Ymin > player4->getPosition().y && player4->isAlive()) Ymin = player4->getPosition().y;
+				if (Ymax < p->getPosition().y and p->isAlive())
+					Ymax = p->getPosition().y;
 
-		scene.update();
+				if (Ymin > p->getPosition().y and p->isAlive())
+					Ymin = p->getPosition().y;
+			}
+			
+			if (camera_previous_x - window_manager1.getWindow()->getSize().x/2 >= p->getPosition().x)
+				p->die();
 
-		std::cout << Xmin << " " << Xmax << std::endl;
+			if (p->getPosition().y > 1800)
+				p->die();
 
-		if (camera_previous_x - window_manager1.getWindow()->getSize().x/2 >= player1->getPosition().x) player1->die();
-		if (camera_previous_x - window_manager1.getWindow()->getSize().x/2 >= player2->getPosition().x) player2->die();
-		if (camera_previous_x - window_manager1.getWindow()->getSize().x/2 >= player3->getPosition().x) player3->die();
-		if (camera_previous_x - window_manager1.getWindow()->getSize().x/2 >= player4->getPosition().x) player4->die();
-
-		if (player1->getPosition().y > 1800) player1->die();
-		if (player2->getPosition().y > 1800) player2->die();
-		if (player3->getPosition().y > 1800) player3->die();
-		if (player4->getPosition().y > 1800) player4->die();
-
-		if (player1->getPosition().y < 0) player1->die();
-		if (player2->getPosition().y < 0) player2->die();
-		if (player3->getPosition().y < 0) player3->die();
-		if (player4->getPosition().y < 0) player4->die();
+		}
+		scene.update(Xmax);
 
 		if (camera_previous_x == -1)
 		{
-			std::cout << "que paso guey" << std::endl;
 			camera_previous_x = (Xmax*1.4+Xmin)/2.4;
 		}
 
 		auto view = window_manager1.getWindow()->getView();
 		if (camera_previous_x > (Xmax*1.4+Xmin)/2.4)
 		{
-			std::cout << "que paso cat" << std::endl;
 			view.setCenter(sf::Vector2f(camera_previous_x, (Ymax+Ymin)/2.0));
 		}
 		else
 		{
-			std::cout << "que paso dog" << std::endl;
 			view.setCenter(sf::Vector2f((Xmax*1.4+Xmin)/2.4, (Ymax+Ymin)/2.0));
 			camera_previous_x = (Xmax*1.4+Xmin)/2.4;
 		}

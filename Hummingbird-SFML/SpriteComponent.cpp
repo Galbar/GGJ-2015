@@ -37,6 +37,8 @@ const RenderWindowManager* SpriteComponent::getRenderWindowManager() const
 
 void SpriteComponent::setTexture(const std::string& path, const sf::IntRect& area)
 {
+	if (m_texture_id != -1)
+		TextureManager::instance()->release(m_texture_id);
 	m_texture_id = TextureManager::instance()->loadFromFile(path, area);
 	m_sprite.setTexture(TextureManager::instance()->get(m_texture_id));
 	m_sprite.setOrigin(m_sprite.getTexture()->getSize().x / 2, m_sprite.getTexture()->getSize().y / 2);

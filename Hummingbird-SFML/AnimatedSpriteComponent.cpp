@@ -23,6 +23,8 @@ AnimatedSpriteComponent::~AnimatedSpriteComponent()
 
 void AnimatedSpriteComponent::setTexture(const std::string& path, const sf::IntRect& area)
 {
+	if (m_texture_id != -1)
+		TextureManager::instance()->release(m_texture_id);
 	m_texture_id = TextureManager::instance()->loadFromFile(path, area);
 	m_sprite.setTexture(TextureManager::instance()->get(m_texture_id));
 }
@@ -49,10 +51,10 @@ void AnimatedSpriteComponent::update()
 				}
 			}
 
-			Vector2d pos = getCoords();
-			m_sprite.setTextureRect(sf::IntRect(pos.x, pos.y, m_frame_size.x, m_frame_size.y));
 		}
 	}
+	Vector2d pos = getCoords();
+	m_sprite.setTextureRect(sf::IntRect(pos.x, pos.y, m_frame_size.x, m_frame_size.y));
 }
 
 
@@ -73,8 +75,8 @@ void AnimatedSpriteComponent::setFrameInterval(int begin_frame, int end_frame)
 void AnimatedSpriteComponent::setFrameSize(const Vector2d& frame_size)
 {
 	m_frame_size = frame_size;
-	m_sprite.setOrigin(frame_size.x / 2.0, frame_size.y / 2.0);
-	setPosition(hb::Vector3d(-frame_size.x / 2.0, -frame_size.y / 2.0, getPosition().z));
+	m_sprite.setOrigin(frame_size.x / 2.0 + 0.5, frame_size.y / 2.0 + 0.5);
+	setPosition(hb::Vector3d(getPosition().x - frame_size.x / 2.0 + 0.5, getPosition().y - frame_size.y / 2.0 + 0.5, getPosition().z));
 }
 
 
@@ -118,7 +120,7 @@ void AnimatedSpriteComponent::stop()
 Vector2d AnimatedSpriteComponent::getCoords()
 {
 	int nx = m_sprite.getTexture()->getSize().x / (m_frame_size.x + m_frame_margin.x);
-	int x_coord = (m_current_frame % nx) * (m_frame_size.x + m_frame_margin.x) + m_frame_margin.x;
-	int y_coord = (m_current_frame / nx) * (m_frame_size.y + m_frame_margin.y) + m_frame_margin.y;
+	int x_coord = (m_current_frame % nx) * (m_frame_size.x + m_frame_margin.x) + m_frame_margin.x + 0.5;
+	int y_coord = (m_current_frame / nx) * (m_frame_size.y + m_frame_margin.y) + m_frame_margin.y + 0.5;
 	return Vector2d(x_coord, y_coord);
 }
