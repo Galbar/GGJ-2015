@@ -182,6 +182,10 @@ int main(int argc, char const *argv[])
 		{
 			camera_previous_x = (Xmax*1.4+Xmin)/2.4;
 		}
+		else
+		{
+			camera_previous_x += 20 * Time::deltaTime.asSeconds();
+		}
 
 		auto view = window_manager1.getWindow()->getView();
 		if (camera_previous_x > (Xmax*1.4+Xmin)/2.4)

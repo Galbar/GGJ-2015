@@ -284,19 +284,23 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 				if (in_collider)
 				{
 					in_collider = false;
-					b2BodyDef myBodyDef;
-					myBodyDef.type = b2_staticBody;
+					if (collider_begin.y + 1.5 < j)
+					{
+						std::cout << "collider_begin " << collider_begin.y << ", " << j << std::endl;
+						b2BodyDef myBodyDef;
+						myBodyDef.type = b2_staticBody;
 
-					b2PolygonShape collider_shape;
-					collider_shape.SetAsBox(0.5, ((double)j - collider_begin.y) / 2.0); //a 4x2 rectangle
-					myBodyDef.position.Set(collider_begin.x + 0.5, ((double)j + collider_begin.y) / 2.0); //a bit to the right
+						b2PolygonShape collider_shape;
+						collider_shape.SetAsBox(0.5, ((double)j - collider_begin.y) / 2.0); //a 4x2 rectangle
+						myBodyDef.position.Set(collider_begin.x + 0.5, ((double)j + collider_begin.y) / 2.0); //a bit to the right
 
-					b2Body* body = hb::PhysicsWorld::instance()->addBody(&myBodyDef);
-					b2FixtureDef myFixtureDef;
-					myFixtureDef.shape = &collider_shape;
-					body->CreateFixture(&myFixtureDef);
-					hb::CollisionComponent* cc = new hb::CollisionComponent(body);
-					tilemap_obj->addComponent(cc);
+						b2Body* body = hb::PhysicsWorld::instance()->addBody(&myBodyDef);
+						b2FixtureDef myFixtureDef;
+						myFixtureDef.shape = &collider_shape;
+						body->CreateFixture(&myFixtureDef);
+						hb::CollisionComponent* cc = new hb::CollisionComponent(body);
+						tilemap_obj->addComponent(cc);
+					}
 
 				}
 			}
@@ -310,8 +314,9 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 				else if (in_collider and not ((i != 0 and tilemap.getPixel(i - 1, j) != sf::Color::White) or (i != size.x-1 and tilemap.getPixel(i + 1, j) != sf::Color::White)))
 				{
 					in_collider = false;
-					if (not (collider_begin == hb::Vector2d((m_i + i), j+1)))
+					if (collider_begin.y + 1.5 < j)
 					{
+						std::cout << "collider_begin " << collider_begin.y << ", " << j << std::endl;
 						b2BodyDef myBodyDef;
 						myBodyDef.type = b2_staticBody;
 
@@ -346,17 +351,21 @@ void Scene::loadFragment(std::string path, hb::RenderWindowManager* window_manag
 		if (in_collider)
 		{
 			in_collider = false;
-			b2BodyDef myBodyDef;
-			myBodyDef.type = b2_staticBody;
+			if (collider_begin.y + 1.5 < size.y)
+			{
+				std::cout << "collider_begin " << collider_begin.y << ", " << size.y << std::endl;
+				b2BodyDef myBodyDef;
+				myBodyDef.type = b2_staticBody;
 
-			b2PolygonShape collider_shape;
-					collider_shape.SetAsBox(0.5, ((double)size.y - collider_begin.y) / 2.0); //a 4x2 rectangle
-					myBodyDef.position.Set(collider_begin.x + 0.5, ((double)size.y + collider_begin.y) / 2.0); //a bit to the right
+				b2PolygonShape collider_shape;
+						collider_shape.SetAsBox(0.5, ((double)size.y - collider_begin.y) / 2.0); //a 4x2 rectangle
+						myBodyDef.position.Set(collider_begin.x + 0.5, ((double)size.y + collider_begin.y) / 2.0); //a bit to the right
 
-			b2Body* body = hb::PhysicsWorld::instance()->addBody(&myBodyDef);
-			b2FixtureDef myFixtureDef;
-			myFixtureDef.shape = &collider_shape;
-			body->CreateFixture(&myFixtureDef); //add a fixture to the body
+				b2Body* body = hb::PhysicsWorld::instance()->addBody(&myBodyDef);
+				b2FixtureDef myFixtureDef;
+				myFixtureDef.shape = &collider_shape;
+				body->CreateFixture(&myFixtureDef); //add a fixture to the body
+			}
 		}
 //		std::cout << std::endl;
 	}
